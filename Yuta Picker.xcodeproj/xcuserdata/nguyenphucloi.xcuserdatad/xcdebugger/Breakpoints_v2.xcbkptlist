@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Bucket
+   uuid = "0F16A6F8-D1A3-42E2-AC2C-77BFF98B11AC"
+   type = "1"
+   version = "2.0">
+   <Breakpoints>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "040597D4-B590-4407-95BC-346D914FF54E"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Yuta Picker/Context/Context_ColourInfoProvider.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "27"
+            endingLineNumber = "27"
+            landmarkName = "getJsonByQuery(queries:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "9DC25AC0-641A-4382-8782-F95BE5A36EB3"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Yuta Picker/Context/Context_ColourInfoProvider.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "29"
+            endingLineNumber = "29"
+            landmarkName = "getJsonByQuery(queries:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "9DC25AC0-641A-4382-8782-F95BE5A36EB3 - aab05e1b8eeca94e"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Yuta_Picker.ColourInfoContextProvider.getJsonByQuery(queries: Swift.Dictionary&lt;Swift.String, Swift.String&gt;) -&gt; ()"
+                  moduleName = "Yuta Picker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nguyenphucloi/Desktop/Code/IOS/Yuta%20Picker/Yuta%20Picker/Context/Context_ColourInfoProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "1420">
+               </Location>
+               <Location
+                  uuid = "9DC25AC0-641A-4382-8782-F95BE5A36EB3 - 27a1d073f97fbc50"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Yuta_Picker.ColourInfoContextProvider.getJsonByQuery(queries: Swift.Dictionary&lt;Swift.String, Swift.String&gt;) -&gt; ()"
+                  moduleName = "Yuta Picker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nguyenphucloi/Desktop/Code/IOS/Yuta%20Picker/Yuta%20Picker/Context/Context_ColourInfoProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "344">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "78EF3E04-0419-41F8-98DD-9999E3738620"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Yuta Picker/Context/Context_ColourInfoProvider.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "30"
+            endingLineNumber = "30"
+            landmarkName = "getJsonByQuery(queries:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "2A49FD17-44D5-4275-8F8A-BC9A1DD49234"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Yuta Picker/Context/Context_ColourInfoProvider.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "32"
+            endingLineNumber = "32"
+            landmarkName = "getJsonByQuery(queries:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "A6943973-147F-4349-855B-C66A189652C2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Yuta Picker/Context/Context_ColourInfoProvider.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "38"
+            endingLineNumber = "38"
+            landmarkName = "getJsonByQuery(queries:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "F0050301-221C-4189-8309-97FB23A1F0B4"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Yuta Picker/Context/Context_ColourInfoProvider.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "37"
+            endingLineNumber = "37"
+            landmarkName = "getJsonByQuery(queries:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "F0050301-221C-4189-8309-97FB23A1F0B4 - 27a1d073f97fa368"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Yuta_Picker.ColourInfoContextProvider.getJsonByQuery(queries: Swift.Dictionary&lt;Swift.String, Swift.String&gt;) -&gt; ()"
+                  moduleName = "Yuta Picker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nguyenphucloi/Desktop/Code/IOS/Yuta%20Picker/Yuta%20Picker/Context/Context_ColourInfoProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "500">
+               </Location>
+               <Location
+                  uuid = "F0050301-221C-4189-8309-97FB23A1F0B4 - 27a1d073f97fa368"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #2 @Sendable (Swift.Optional&lt;Foundation.Data&gt;, Swift.Optional&lt;__C.NSURLResponse&gt;, Swift.Optional&lt;Swift.Error&gt;) -&gt; () in Yuta_Picker.ColourInfoContextProvider.getJsonByQuery(queries: Swift.Dictionary&lt;Swift.String, Swift.String&gt;) -&gt; ()"
+                  moduleName = "Yuta Picker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nguyenphucloi/Desktop/Code/IOS/Yuta%20Picker/Yuta%20Picker/Context/Context_ColourInfoProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "59"
+                  endingLineNumber = "59"
+                  offsetFromSymbolStart = "1156">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "58B3CB7D-5237-47F6-AC71-7E50DB1599B0"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Yuta Picker/Context/Context_ColourInfoProvider.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "22"
+            endingLineNumber = "22"
+            landmarkName = "getJsonByQuery(queries:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "E30BFA32-EDD1-49AB-B923-81C11168AFD2"
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Yuta Picker/Context/Context_ColourInfoProvider.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "17"
+            endingLineNumber = "17"
+            landmarkName = "getJsonByQuery(queries:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "E30BFA32-EDD1-49AB-B923-81C11168AFD2 - aab05e1b8eecacec"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Yuta_Picker.ColourInfoContextProvider.getJsonByQuery(queries: Swift.Dictionary&lt;Swift.String, Swift.String&gt;) -&gt; ()"
+                  moduleName = "Yuta Picker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nguyenphucloi/Desktop/Code/IOS/Yuta%20Picker/Yuta%20Picker/Context/Context_ColourInfoProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "17"
+                  endingLineNumber = "17"
+                  offsetFromSymbolStart = "380">
+               </Location>
+               <Location
+                  uuid = "E30BFA32-EDD1-49AB-B923-81C11168AFD2 - 3a7e0c15e4313281"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Swift.String, Swift.String) -&gt; Swift.String in Yuta_Picker.ColourInfoContextProvider.getJsonByQuery(queries: Swift.Dictionary&lt;Swift.String, Swift.String&gt;) -&gt; ()"
+                  moduleName = "Yuta Picker"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/nguyenphucloi/Desktop/Code/IOS/Yuta%20Picker/Yuta%20Picker/Context/Context_ColourInfoProvider.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "18"
+                  endingLineNumber = "18"
+                  offsetFromSymbolStart = "84">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+   </Breakpoints>
+</Bucket>
