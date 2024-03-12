@@ -12,26 +12,33 @@ struct ColorAttributeDetailsView: View {
     var hexCode: String
     
     var body: some View {
-        VStack {
+        ZStack {
+            Color("PrimaryBackground")
+                .edgesIgnoringSafeArea(.all)
             if let backgroundColor = colourInfoContextProvider.currentColorDetails?.hex.value {
-                let uiColor = Color.init(hex: "#\(backgroundColor)")!
-                Rectangle()
-                    .frame(maxWidth: .infinity)
-                    .frame(height: 100)
-                    .foregroundColor(uiColor)
-                    .cornerRadius(12.0)
-                    .shadow(color: uiColor, radius: 8, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 0.0)
-                    .padding()
+                let uiColor = Color.init(hex: "#\(hexCode)")!
+                WaveAnimation(fillColor: uiColor)
+                    .edgesIgnoringSafeArea(.all)
                 
             }
-            if let nameOfColor = colourInfoContextProvider.currentColorDetails?.name.value {
-                Text("#\(nameOfColor)")
-                    .font(.largeTitle.bold())
+            
+            if
+                let nameOfColor: String = colourInfoContextProvider.currentColorDetails?.name.value,
+                let contrastColor: String = colourInfoContextProvider.currentColorDetails?.contrast.value{
+                VStack {
+                    Text("#\(nameOfColor)")
+                        .foregroundColor(Color.init(hex: "\(contrastColor)")!)
+                        .font(.largeTitle.bold())
+                    
+                    Text("Colour Information")
+                        .foregroundColor(Color.init(hex: "\(contrastColor)")!)
+                    Text(self.hexCode)
+                        .foregroundColor(Color.init(hex: "\(contrastColor)")!)
+                    
+                }
             }
-            Text("Colour Information")
-            Text(self.hexCode)
-                .foregroundColor(.red)
-                
+            
+            
         }
         .onAppear() {
             DispatchQueue.main.async {

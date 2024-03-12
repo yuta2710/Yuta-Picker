@@ -24,40 +24,40 @@ struct ColorPickerView: View {
                 Text("")
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
-                        ToolbarItem(placement: .principal) {
-                            HStack {
-                                Button(action: {
-                                    self.isOpen.toggle()
-                                }, label: {
-                                    Image(systemName: "arrow.backward")
-                                        .resizable()
-                                        .frame(width: 30, height: 25)
-                                })
-                                
-                                Spacer()
-                                
-                                Button(action: {
-                                    print("Data Color before saved to DB: \(colorAttributesVM.selectedColor.asHex()!)")
-                                    if  let hexColor = colorAttributesVM.selectedColor.asHex(), let currentAccount = authVM.currentAccount {
-                                        self.colorAttributesVM.saveUserPalette(account: currentAccount, paletteData: hexColor) {
-                                            Log.proposeLogInfo("[SUCCESS - save user palette]: \(colorAttributesVM.selectedColor.asHex()!)")
-                                        }
-                                        
-                                        DispatchQueue.main.async {
-                                            self.isOpen.toggle()
-                                            authVM.fetchCurrentAccount()
-                                        }
-                                    }
-                                }, label: {
-                                    Image(systemName: "square.and.arrow.down")
-                                        .resizable()
-                                        .frame(width: 30, height: 40)
-                                })
+                        ToolbarItem(placement: .navigationBarLeading) {
+                            Button(action: {
+                                self.isOpen.toggle()
+                            }) {
+                                Image(systemName: "arrow.backward")
+                                    .resizable()
+                                    .frame(width: 30, height: 25)
                             }
-                            .padding()
-                            
                         }
+                        
+                        ToolbarItem(placement: .navigationBarTrailing) {
+                            Button(action: {
+                                print("Data Color before saved to DB: \(colorAttributesVM.selectedColor.asHex()!)")
+                                if  let hexColor = colorAttributesVM.selectedColor.asHex(), let currentAccount = authVM.currentAccount {
+                                    self.colorAttributesVM.saveUserPalette(account: currentAccount, paletteData: hexColor) {
+                                        Log.proposeLogInfo("[SUCCESS - save user palette]: \(colorAttributesVM.selectedColor.asHex()!)")
+                                    }
+                                    
+                                    DispatchQueue.main.async {
+                                        self.isOpen.toggle()
+                                        authVM.fetchCurrentAccount()
+                                    }
+                                }
+                            }) {
+                                Image(systemName: "square.and.arrow.down")
+                                    .resizable()
+                                    .frame(width: 30, height: 40)
+                            }
+                        }
+                        
                     }
+                
+                 
+                
                 ColorPicker("", selection: $colorAttributesVM.selectedColor)
                     .frame(maxWidth: .infinity, alignment: .center)
                     .padding()
@@ -72,7 +72,7 @@ struct ColorPickerView: View {
                         .cornerRadius(20)
                         .padding()
                     
-
+                    
                     HStack (spacing: 8.0) {
                         Text(String(format: "R: %.2f, ", self.rgbComponents.0))
                             .foregroundColor(.black)
@@ -105,7 +105,7 @@ struct ColorPickerView: View {
                         Text(String(format: "Y: %.2f, ", self.cmykComponents.2))
                             .foregroundColor(.black)
                         
-                        Text(String(format: "J: %.2f, ", self.cmykComponents.3))
+                        Text(String(format: "J: %.2f ", self.cmykComponents.3))
                             .foregroundColor(.black)
                     }
                     
@@ -124,7 +124,7 @@ struct ColorPickerView: View {
                 let (hue, saturation, brightness) = value.hsbComponents()
                 let (cyan, magnento, yellow, keyline) = value.cmykComponents()
                 
-                Log.proposeLogInfo("VALUE WAS CAHNGED")
+                Log.proposeLogInfo("VALUE WAS CHANGED")
                 Log.proposeLogInfo("[RGB DATA]: \(red), \(green), \(blue)")
                 Log.proposeLogInfo("[HSB DATA]: \(hue), \(saturation), \(brightness)")
                 
@@ -135,16 +135,22 @@ struct ColorPickerView: View {
                     
                 }
             }
-            
+//            .frame(height: .infinity)
+//            .background(
+//                Color("TertiaryBackground")
+//                    .edgesIgnoringSafeArea(.all)
+//            )
             
         }
         .frame(maxWidth: .infinity)
-        .frame(minHeight: 250)
+//        .frame(height: 500)
+        
         Spacer()
     }
 }
 
 #Preview {
-    ColorPickerView(isOpen: .constant(true))
+    //    ColorPickerView(isOpen: .constant(true))
+    HomeView()
         .environmentObject(AuthenticationContextProvider())
 }

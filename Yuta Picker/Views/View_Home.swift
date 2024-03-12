@@ -93,9 +93,9 @@ struct HomeView: View {
                             })
                             
                             if let palleteIds = authenticationContextProvider.currentAccount?.paletteIds {
-                                ForEach(palleteIds.reversed(), id: \.self) { palleteHex in
+                                ForEach(palleteIds, id: \.self) { palleteHex in
                                     NavigationLink{
-                                        ColorAttributeDetailsView(hexCode: palleteHex)
+                                        ColorAttributeDetailsView(hexCode: palleteHex.uppercased())
                                     }label: {
                                         let uiColor = Color.init(hex: "#\(palleteHex)")!
                                         Color(uiColor)

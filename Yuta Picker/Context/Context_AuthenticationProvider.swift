@@ -70,8 +70,11 @@ class AuthenticationContextProvider: ObservableObject {
             Log.proposeLogInfo("\nUser Object  = \(userObject)")
             
             let accountEntity: Account = Account(id: userObject.uid, email: userObject.email!, name: userObject.displayName!, paletteIds: [], libraryWorkspaceIds: [])
+            let isAccountExist: Bool = await isAccountExistInFirestore(accountId: accountEntity.id)
             
-            self.insertUser(data: accountEntity, callback: callback)
+            if !isAccountExist {
+                self.insertUser(data: accountEntity, callback: callback)
+            }
             
             Log.proposeLogInfo("\n\nUser \(userObject.uid) signed in with \(userObject.email ?? "Unknown")")
             return true
@@ -143,6 +146,19 @@ class AuthenticationContextProvider: ObservableObject {
                     libraryWorkspaceIds: data["libraryWorkspaceIds"] as? [String] ?? []
                 )
             }
+        }
+    }
+    
+    func isAccountExistInFirestore(accountId: String) async -> Bool {
+        let db = Firestore.firestore()
+        let docRef = db.collection("accounts").document(accountId)
+        
+        do {
+            let document = try await docRef.getDocument()
+            print("[DOCUMENT EXIST STATE]: \(document.exists)")
+            return document.exists
+        }catch {
+            return false
         }
     }
 }
