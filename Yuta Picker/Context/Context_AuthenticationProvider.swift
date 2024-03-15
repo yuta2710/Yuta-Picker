@@ -121,7 +121,7 @@ class AuthenticationContextProvider: ObservableObject {
         callback()
     }
     
-    func fetchCurrentAccount() -> Void {
+    func fetchCurrentAccount(callback: @escaping () -> ()) -> Void {
         let db = Firestore.firestore()
         
         guard let uId = Auth.auth().currentUser?.uid else {
@@ -145,8 +145,11 @@ class AuthenticationContextProvider: ObservableObject {
                     paletteIds: data["paletteIds"] as? [String] ?? [],
                     libraryWorkspaceIds: data["libraryWorkspaceIds"] as? [String] ?? []
                 )
+                callback()
             }
         }
+        
+        
     }
     
     func isAccountExistInFirestore(accountId: String) async -> Bool {

@@ -75,7 +75,7 @@ extension Color {
         var cyan: CGFloat = (1.0 - red - keyline) / (1.0 - keyline)
         var magnento: CGFloat = (1 - green - keyline) / (1 - keyline)
         var yellow: CGFloat = (1 - blue - keyline) / (1 - keyline)
-       
+        
         return (cyan, magnento, yellow, keyline)
         
         
@@ -106,4 +106,12 @@ extension Color {
     }
 }
 
-
+extension Date {
+    func formattedDateString(from timeInterval: TimeInterval) -> String {
+        let date = Date(timeIntervalSince1970: timeInterval)
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "MMM dd, yyyy HH:mm:ss"
+        
+        return dateFormatter.string(from: date)
+    }
+}

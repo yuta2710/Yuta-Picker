@@ -44,7 +44,7 @@ struct ColorPickerView: View {
                                     
                                     DispatchQueue.main.async {
                                         self.isOpen.toggle()
-                                        authVM.fetchCurrentAccount()
+                                        authVM.fetchCurrentAccount(){}
                                     }
                                 }
                             }) {
@@ -115,7 +115,7 @@ struct ColorPickerView: View {
             
             .onAppear() {
                 DispatchQueue.main.async {
-                    authVM.fetchCurrentAccount()
+                    authVM.fetchCurrentAccount(){}
                 }
                 
             }

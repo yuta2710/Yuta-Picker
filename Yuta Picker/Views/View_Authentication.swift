@@ -37,7 +37,7 @@ struct AuthenticationView: View {
                             let success = await authContext.signInWithGoogle {}
                             if success {
                                 Log.proposeLogInfo("[SUCCESS] ==> User login successfully")
-                                await authContext.fetchCurrentAccount()
+                                await authContext.fetchCurrentAccount(){}
                             }else {
                                 Log.proposeLogWarning("[WARNING] ==> Login Failed")
                             }

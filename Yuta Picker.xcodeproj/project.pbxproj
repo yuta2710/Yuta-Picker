@@ -11,6 +11,9 @@
 		CF6CE2C32B9E2D76003915D7 /* View_ColorAttributeDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6CE2C22B9E2D76003915D7 /* View_ColorAttributeDetails.swift */; };
 		CF6CE2C62B9E3724003915D7 /* SwiftyBeaver in Frameworks */ = {isa = PBXBuildFile; productRef = CF6CE2C52B9E3724003915D7 /* SwiftyBeaver */; };
 		CF6CE2C92BA07C13003915D7 /* Animation_Wave.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6CE2C82BA07C13003915D7 /* Animation_Wave.swift */; };
+		CF6CE2CB2BA08DAC003915D7 /* View_LibraryDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6CE2CA2BA08DAC003915D7 /* View_LibraryDetails.swift */; };
+		CF6CE2CD2BA08E34003915D7 /* UI_LibraryCardPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6CE2CC2BA08E34003915D7 /* UI_LibraryCardPreview.swift */; };
+		CF6CE2D12BA4938C003915D7 /* ModalView in Frameworks */ = {isa = PBXBuildFile; productRef = CF6CE2D02BA4938C003915D7 /* ModalView */; };
 		CF86AABC2B970B61004A2545 /* Yuta_PickerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86AABB2B970B61004A2545 /* Yuta_PickerApp.swift */; };
 		CF86AABE2B970B61004A2545 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86AABD2B970B61004A2545 /* ContentView.swift */; };
 		CF86AAC02B970B62004A2545 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF86AABF2B970B62004A2545 /* Assets.xcassets */; };
@@ -72,6 +75,8 @@
 		CF28ADE72B9B9F4E005F78B9 /* Context_ColourInfoProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Context_ColourInfoProvider.swift; sourceTree = "<group>"; };
 		CF6CE2C22B9E2D76003915D7 /* View_ColorAttributeDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View_ColorAttributeDetails.swift; sourceTree = "<group>"; };
 		CF6CE2C82BA07C13003915D7 /* Animation_Wave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation_Wave.swift; sourceTree = "<group>"; };
+		CF6CE2CA2BA08DAC003915D7 /* View_LibraryDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View_LibraryDetails.swift; sourceTree = "<group>"; };
+		CF6CE2CC2BA08E34003915D7 /* UI_LibraryCardPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI_LibraryCardPreview.swift; sourceTree = "<group>"; };
 		CF86AAB82B970B61004A2545 /* Yuta Picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Yuta Picker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF86AABB2B970B61004A2545 /* Yuta_PickerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Yuta_PickerApp.swift; sourceTree = "<group>"; };
 		CF86AABD2B970B61004A2545 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -133,6 +138,7 @@
 				CF86AB012B97130F004A2545 /* FirebasePerformance in Frameworks */,
 				CF86AAF92B97130F004A2545 /* FirebaseInAppMessagingSwift-Beta in Frameworks */,
 				CF86AB072B97130F004A2545 /* FirebaseStorage in Frameworks */,
+				CF6CE2D12BA4938C003915D7 /* ModalView in Frameworks */,
 				CF86AAEB2B97130F004A2545 /* FirebaseDynamicLinks in Frameworks */,
 				CF86AAEF2B97130F004A2545 /* FirebaseFirestoreCombine-Community in Frameworks */,
 				CF86AAFF2B97130F004A2545 /* FirebaseMessaging in Frameworks */,
@@ -190,6 +196,7 @@
 				CF86AB0E2B971502004A2545 /* UI_CardLibrary.swift */,
 				CF86AB142B9725B5004A2545 /* UI_GradientText.swift */,
 				CF86AB1C2B9768C6004A2545 /* UI_SolidButton.swift */,
+				CF6CE2CC2BA08E34003915D7 /* UI_LibraryCardPreview.swift */,
 			);
 			path = UI;
 			sourceTree = "<group>";
@@ -204,6 +211,7 @@
 				CF86AB2C2B98EC3F004A2545 /* View_Search.swift */,
 				CF86AB1A2B97539F004A2545 /* View_Authentication.swift */,
 				CF6CE2C22B9E2D76003915D7 /* View_ColorAttributeDetails.swift */,
+				CF6CE2CA2BA08DAC003915D7 /* View_LibraryDetails.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -307,6 +315,7 @@
 				CF86AB212B97A3BF004A2545 /* GoogleSignIn */,
 				CF86AB232B97A3BF004A2545 /* GoogleSignInSwift */,
 				CF6CE2C52B9E3724003915D7 /* SwiftyBeaver */,
+				CF6CE2D02BA4938C003915D7 /* ModalView */,
 			);
 			productName = "Yuta Picker";
 			productReference = CF86AAB82B970B61004A2545 /* Yuta Picker.app */;
@@ -340,6 +349,7 @@
 				CF86AAD32B97130F004A2545 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 				CF86AB202B97A3BF004A2545 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
 				CF6CE2C42B9E3724003915D7 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */,
+				CF6CE2CF2BA4938C003915D7 /* XCRemoteSwiftPackageReference "modal-view" */,
 			);
 			productRefGroup = CF86AAB92B970B61004A2545 /* Products */;
 			projectDirPath = "";
@@ -381,12 +391,14 @@
 				CF86AB2F2B98EC7B004A2545 /* View_Camera.swift in Sources */,
 				CF86AB0B2B97140D004A2545 /* UI_TabBarCustomization.swift in Sources */,
 				CF86AB0D2B971475004A2545 /* UI_CircleButton.swift in Sources */,
+				CF6CE2CB2BA08DAC003915D7 /* View_LibraryDetails.swift in Sources */,
 				CF86AACE2B970C42004A2545 /* Model_Library.swift in Sources */,
 				CF86AB152B9725B5004A2545 /* UI_GradientText.swift in Sources */,
 				CF86AAD02B970D41004A2545 /* ViewModel_ColorAttributes.swift in Sources */,
 				CF86AB0F2B971502004A2545 /* UI_CardLibrary.swift in Sources */,
 				CF86AB2D2B98EC3F004A2545 /* View_Search.swift in Sources */,
 				CF86AB292B98E1F4004A2545 /* Util_TabBarConstants.swift in Sources */,
+				CF6CE2CD2BA08E34003915D7 /* UI_LibraryCardPreview.swift in Sources */,
 				CF86AB112B971A70004A2545 /* Util_VisualEffectBlur.swift in Sources */,
 				CF86AB132B9723CE004A2545 /* View_Home.swift in Sources */,
 				CF86AABC2B970B61004A2545 /* Yuta_PickerApp.swift in Sources */,
@@ -611,6 +623,14 @@
 				minimumVersion = 2.0.0;
 			};
 		};
+		CF6CE2CF2BA4938C003915D7 /* XCRemoteSwiftPackageReference "modal-view" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/diniska/modal-view.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.0.1;
+			};
+		};
 		CF86AAD32B97130F004A2545 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/firebase/firebase-ios-sdk.git";
@@ -634,6 +654,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = CF6CE2C42B9E3724003915D7 /* XCRemoteSwiftPackageReference "SwiftyBeaver" */;
 			productName = SwiftyBeaver;
+		};
+		CF6CE2D02BA4938C003915D7 /* ModalView */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = CF6CE2CF2BA4938C003915D7 /* XCRemoteSwiftPackageReference "modal-view" */;
+			productName = ModalView;
 		};
 		CF86AAD42B97130F004A2545 /* FirebaseAnalytics */ = {
 			isa = XCSwiftPackageProductDependency;

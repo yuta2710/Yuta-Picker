@@ -8,10 +8,12 @@
 import SwiftUI
 
 struct CardLibrary: View {
+    var library: Library
+    
     var body: some View {
         ZStack(alignment: .topLeading) {
             VStack(alignment: .leading, spacing: 16) {
-                Text("Glassmorphism")
+                Text(library.name)
                     .font(.system(size: 24, weight: .bold, design: .rounded))
                     .foregroundColor(.white)
                 
@@ -40,7 +42,7 @@ struct CardLibrary: View {
                         Text("Created at:")
                             .font(.footnote)
                             .foregroundColor(Color("PrimaryBackground").opacity(0.6))
-                        Text(Date().formatted())
+                        Text("\(Date().formattedDateString(from: library.createdAt))")
                             .font(.footnote)
                             .foregroundColor(.white)
                     }
@@ -49,7 +51,7 @@ struct CardLibrary: View {
                         Text("Last modified at:")
                             .font(.footnote)
                             .foregroundColor(Color("PrimaryBackground").opacity(0.6))
-                        Text(Date().formatted())
+                        Text("\(Date().formattedDateString(from: library.modifiedAt))")
                             .font(.footnote)
                             .foregroundColor(.white)
                     }
@@ -72,7 +74,8 @@ struct CardLibrary: View {
 }
 
 #Preview {
-    CardLibrary()
+    CardLibrary(library: .init(id: "", name: "", colors: [], ownerId: "",
+                               createdAt: Date().timeIntervalSince1970, modifiedAt: Date().timeIntervalSince1970))
 }
 
 
