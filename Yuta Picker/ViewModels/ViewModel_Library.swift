@@ -60,6 +60,17 @@ class LibraryViewViewModel: ObservableObject {
         }
     }
     
+    func addColorToCurrentLibrary(libraryId: String, hexData: String, callback: @escaping () -> ()) {
+        do {
+            db.collection("libraries").document(libraryId).updateData(["colors": FieldValue.arrayUnion([hexData])]) { error in
+                Log.proposeLogInfo("[SUCCESSFULLY ADDED COLOR TO LIBRARY \(libraryId)]")
+            }
+            callback()
+        }catch let error {
+            Log.proposeLogError("\(error.localizedDescription)")
+        }
+    }
+    
     func validate() -> Bool {
         guard !name.isEmpty else {
             self.isDisplayAlert.toggle()

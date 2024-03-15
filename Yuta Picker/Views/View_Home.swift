@@ -49,9 +49,13 @@ struct HomeView: View {
     
     @State private var isOpen: Bool = false
     @State private var isOpenCreateNewWorkspaceDialog: Bool = false
+    @State private var isOpenAddColorToLibraryModalForm: Bool = false
+    @State private var currentHexColorLongGesture: String = ""
+    
+    @State private var selection: String?
     
     @GestureState private var isLongPressColor: Bool = false
-
+    
     
     
     var body: some View {
@@ -139,7 +143,7 @@ struct HomeView: View {
                                 ForEach(palleteIds, id: \.self) { palleteHex in
                                     NavigationLink{
                                         ColorAttributeDetailsView(hexCode: palleteHex.uppercased())
-                                            
+                                        
                                     }label: {
                                         let uiColor = Color.init(hex: "#\(palleteHex)")!
                                         Color(uiColor)
@@ -150,29 +154,23 @@ struct HomeView: View {
                                                 LongPressGesture(minimumDuration: 0.5)
                                                     .updating($isLongPressColor){ currentState, gestureState, transaction in
                                                         gestureState = currentState
-                                                        
+                                                        DispatchQueue.main.async {
+                                                            self.currentHexColorLongGesture = palleteHex
+                                                        }
                                                     }
                                                     .onEnded { value in
                                                         //
                                                     }
-                                                    
+                                                
                                             )
                                             .contextMenu(ContextMenu(menuItems: {
                                                 Button(action: {
                                                     // Handle action for "New Album" here
+                                                    self.isOpenAddColorToLibraryModalForm.toggle()
                                                 }) {
-                                                    Label("New Album", systemImage: "rectangle.stack.badge.plus")
+                                                    Label("Add this color to workspace", systemImage: "rectangle.stack.badge.plus")
                                                 }
-                                                Button(action: {
-                                                    // Handle action for "New Folder" here
-                                                }) {
-                                                    Label("New Folder", systemImage: "folder.badge.plus")
-                                                }
-                                                Button(action: {
-                                                    // Handle action for "New Shared Album" here
-                                                }) {
-                                                    Label("New Shared Album", systemImage: "rectangle.stack.badge.person.crop")
-                                                }
+                                                
                                             }))
                                     }
                                     
@@ -188,7 +186,7 @@ struct HomeView: View {
                             ForEach(libraryVM.currentAccountLibraries, id: \.id) { library in
                                 CardLibrary(library: library)
                             }
-                           
+                            
                         }
                         
                         
@@ -208,22 +206,37 @@ struct HomeView: View {
                 }
             }
         }
-
-//        .onAppear() {
-//            DispatchQueue.main.async {
-//                if let accountId = authenticationContextProvider.currentAccount?.id {
-//                    Log.proposeLogInfo("Cai dit me \(accountId)")
-//                    libraryVM.fetchAllLibrariesByAccountId(ownerId: accountId){
-//                        Log.proposeLogInfo("HAHAHAHAHA: \(libraryVM.currentAccountLibraries)")
-//                    }
-//                }
-//            }
-//        }
-
+        
+        //        .onAppear() {
+        //            DispatchQueue.main.async {
+        //                if let accountId = authenticationContextProvider.currentAccount?.id {
+        //                    Log.proposeLogInfo("Cai dit me \(accountId)")
+        //                    libraryVM.fetchAllLibrariesByAccountId(ownerId: accountId){
+        //                        Log.proposeLogInfo("HAHAHAHAHA: \(libraryVM.currentAccountLibraries)")
+        //                    }
+        //                }
+        //            }
+        //        }
+        
         .sheet(isPresented: $isOpen) {
             ColorPickerView(isOpen: $isOpen)
                 .environmentObject(authenticationContextProvider)
         }
+        .sheet(isPresented: $isOpenAddColorToLibraryModalForm, content: {
+            ModalPresenter {
+                List(libraryVM.currentAccountLibraries, id: \.id, selection: $selection) { library in
+                    Button(action: {
+                        libraryVM.addColorToCurrentLibrary(libraryId: library.id, hexData: currentHexColorLongGesture) {
+                            DispatchQueue.main.async {
+                                self.isOpenAddColorToLibraryModalForm.toggle()
+                            }
+                        }
+                    }, label: {
+                        Text(library.name)
+                    })
+                }
+            }
+        })
         .alert("Create new library", isPresented: $isOpenCreateNewWorkspaceDialog){
             TextField("Name of library", text: $libraryVM.name)
             SolidButton(title: "Add new library", hasIcon: false, iconFromAppleSystem: false, action: {
@@ -237,10 +250,11 @@ struct HomeView: View {
             })
             Button("Cancel", role: .cancel){}
             
-                
+            
         } message: {
             Text("Please enter the name of library")
         }
+        
         
         
     }

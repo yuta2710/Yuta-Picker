@@ -19,22 +19,20 @@ struct CardLibrary: View {
                 
                 ScrollView(.horizontal) {
                     HStack (alignment: .center) {
-                        Color.cyan
-                            .frame(width: 30, height: 30)
-                            .cornerRadius(16.0)
+                        ForEach(library.colors, id: \.self) { hex in
+                            let uiColor = Color.init(hex: "#\(hex)")!
+                            Color(uiColor)
+                                .frame(width: 30, height: 30)
+                                .cornerRadius(18.0)
+                                .shadow(color: uiColor, radius: 8, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 0.0)
+                                .cornerRadius(18.0)
+                            
+                        }
                         
-                        Color.red
-                            .frame(width: 30, height: 30)
-                            .cornerRadius(16.0)
                         
-                        Color.orange
-                            .frame(width: 30, height: 30)
-                            .cornerRadius(16.0)
-                        
-                        Color.green
-                            .frame(width: 30, height: 30)
-                            .cornerRadius(16.0)
                     }
+                    
+                   
                 }
                 
                 VStack (alignment: .leading, spacing: 6.0) {
