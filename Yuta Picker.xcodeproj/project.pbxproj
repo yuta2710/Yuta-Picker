@@ -14,6 +14,9 @@
 		CF6CE2CB2BA08DAC003915D7 /* View_LibraryDetails.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6CE2CA2BA08DAC003915D7 /* View_LibraryDetails.swift */; };
 		CF6CE2CD2BA08E34003915D7 /* UI_LibraryCardPreview.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6CE2CC2BA08E34003915D7 /* UI_LibraryCardPreview.swift */; };
 		CF6CE2D12BA4938C003915D7 /* ModalView in Frameworks */ = {isa = PBXBuildFile; productRef = CF6CE2D02BA4938C003915D7 /* ModalView */; };
+		CF6CE2D32BA4C589003915D7 /* Util_NetworkErrorConstants.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6CE2D22BA4C589003915D7 /* Util_NetworkErrorConstants.swift */; };
+		CF6CE2D52BA4C5C6003915D7 /* Util_LoadingState.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6CE2D42BA4C5C6003915D7 /* Util_LoadingState.swift */; };
+		CF6CE2D72BA4C64F003915D7 /* View_LoadingWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6CE2D62BA4C64F003915D7 /* View_LoadingWrapper.swift */; };
 		CF86AABC2B970B61004A2545 /* Yuta_PickerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86AABB2B970B61004A2545 /* Yuta_PickerApp.swift */; };
 		CF86AABE2B970B61004A2545 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86AABD2B970B61004A2545 /* ContentView.swift */; };
 		CF86AAC02B970B62004A2545 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF86AABF2B970B62004A2545 /* Assets.xcassets */; };
@@ -77,6 +80,9 @@
 		CF6CE2C82BA07C13003915D7 /* Animation_Wave.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Animation_Wave.swift; sourceTree = "<group>"; };
 		CF6CE2CA2BA08DAC003915D7 /* View_LibraryDetails.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View_LibraryDetails.swift; sourceTree = "<group>"; };
 		CF6CE2CC2BA08E34003915D7 /* UI_LibraryCardPreview.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UI_LibraryCardPreview.swift; sourceTree = "<group>"; };
+		CF6CE2D22BA4C589003915D7 /* Util_NetworkErrorConstants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util_NetworkErrorConstants.swift; sourceTree = "<group>"; };
+		CF6CE2D42BA4C5C6003915D7 /* Util_LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util_LoadingState.swift; sourceTree = "<group>"; };
+		CF6CE2D62BA4C64F003915D7 /* View_LoadingWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View_LoadingWrapper.swift; sourceTree = "<group>"; };
 		CF86AAB82B970B61004A2545 /* Yuta Picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Yuta Picker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF86AABB2B970B61004A2545 /* Yuta_PickerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Yuta_PickerApp.swift; sourceTree = "<group>"; };
 		CF86AABD2B970B61004A2545 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -175,6 +181,8 @@
 				CF86AB1E2B97969C004A2545 /* Util_Logging.swift */,
 				CF86AB282B98E1F4004A2545 /* Util_TabBarConstants.swift */,
 				CF86AB302B9AFF7A004A2545 /* Util_Extensions.swift */,
+				CF6CE2D22BA4C589003915D7 /* Util_NetworkErrorConstants.swift */,
+				CF6CE2D42BA4C5C6003915D7 /* Util_LoadingState.swift */,
 			);
 			path = Utils;
 			sourceTree = "<group>";
@@ -212,6 +220,7 @@
 				CF86AB1A2B97539F004A2545 /* View_Authentication.swift */,
 				CF6CE2C22B9E2D76003915D7 /* View_ColorAttributeDetails.swift */,
 				CF6CE2CA2BA08DAC003915D7 /* View_LibraryDetails.swift */,
+				CF6CE2D62BA4C64F003915D7 /* View_LoadingWrapper.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -386,6 +395,7 @@
 				CF6CE2C92BA07C13003915D7 /* Animation_Wave.swift in Sources */,
 				CF86AABE2B970B61004A2545 /* ContentView.swift in Sources */,
 				CF86AB2B2B98EC34004A2545 /* View_Profile.swift in Sources */,
+				CF6CE2D32BA4C589003915D7 /* Util_NetworkErrorConstants.swift in Sources */,
 				CF86AB1D2B9768C6004A2545 /* UI_SolidButton.swift in Sources */,
 				CF86AAD22B970FB2004A2545 /* ViewModel_Library.swift in Sources */,
 				CF86AB2F2B98EC7B004A2545 /* View_Camera.swift in Sources */,
@@ -397,8 +407,10 @@
 				CF86AAD02B970D41004A2545 /* ViewModel_ColorAttributes.swift in Sources */,
 				CF86AB0F2B971502004A2545 /* UI_CardLibrary.swift in Sources */,
 				CF86AB2D2B98EC3F004A2545 /* View_Search.swift in Sources */,
+				CF6CE2D72BA4C64F003915D7 /* View_LoadingWrapper.swift in Sources */,
 				CF86AB292B98E1F4004A2545 /* Util_TabBarConstants.swift in Sources */,
 				CF6CE2CD2BA08E34003915D7 /* UI_LibraryCardPreview.swift in Sources */,
+				CF6CE2D52BA4C5C6003915D7 /* Util_LoadingState.swift in Sources */,
 				CF86AB112B971A70004A2545 /* Util_VisualEffectBlur.swift in Sources */,
 				CF86AB132B9723CE004A2545 /* View_Home.swift in Sources */,
 				CF86AABC2B970B61004A2545 /* Yuta_PickerApp.swift in Sources */,

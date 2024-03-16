@@ -53,6 +53,7 @@ struct HomeView: View {
     @State private var currentHexColorLongGesture: String = ""
     
     @State private var selection: String?
+    @State private var paletteLoadingState: LoadingState<String> = .none
     
     @GestureState private var isLongPressColor: Bool = false
     
@@ -141,6 +142,7 @@ struct HomeView: View {
                             
                             if let palleteIds = authenticationContextProvider.currentAccount?.paletteIds {
                                 ForEach(palleteIds, id: \.self) { palleteHex in
+                                    
                                     NavigationLink{
                                         ColorAttributeDetailsView(hexCode: palleteHex.uppercased())
                                         
@@ -173,6 +175,19 @@ struct HomeView: View {
                                                 
                                             }))
                                     }
+//                                    LoadingWrapperView(loadingState: paletteLoadingState) {
+//                                        Button("Perform Loading Operation") {
+//                                            paletteLoadingState = .loading
+//                                        }.buttonStyle(.borderedProminent)
+//                                    } loadingContent: {
+//                                        ProgressView("Loading...")
+//                                    } successContent: { hex in
+//                                        Text()
+//                                    } failureContent: { error in
+//                                        Text(error.localizedDescription)
+//                                            .foregroundStyle(.red)
+//                                    }
+                                    
                                     
                                 }
                             }
@@ -183,6 +198,7 @@ struct HomeView: View {
                     
                     ScrollView (.vertical) {
                         if let ownerId = authenticationContextProvider.currentAccount?.id {
+                            
                             ForEach(libraryVM.currentAccountLibraries, id: \.id) { library in
                                 CardLibrary(library: library)
                             }
@@ -191,6 +207,14 @@ struct HomeView: View {
                         
                         
                     }
+//                    .onAppear() {
+//                        if let ownerId = authenticationContextProvider.currentAccount?.id {
+//                            libraryVM.fetchAllLibrariesByAccountId(ownerId: ownerId){
+//                                
+//                            }
+//                        }
+//                        
+//                    }
                     
                 }
             }
@@ -201,22 +225,13 @@ struct HomeView: View {
                 authenticationContextProvider.fetchCurrentAccount {
                     if let ownerId = authenticationContextProvider.currentAccount?.id {
                         Log.proposeLogInfo("Account ID: \(ownerId)")
-                        libraryVM.fetchAllLibrariesByAccountId(ownerId: ownerId){}
+                        libraryVM.fetchAllLibrariesByAccountId(ownerId: ownerId){
+                            
+                        }
                     }
                 }
             }
         }
-        
-        //        .onAppear() {
-        //            DispatchQueue.main.async {
-        //                if let accountId = authenticationContextProvider.currentAccount?.id {
-        //                    Log.proposeLogInfo("Cai dit me \(accountId)")
-        //                    libraryVM.fetchAllLibrariesByAccountId(ownerId: accountId){
-        //                        Log.proposeLogInfo("HAHAHAHAHA: \(libraryVM.currentAccountLibraries)")
-        //                    }
-        //                }
-        //            }
-        //        }
         
         .sheet(isPresented: $isOpen) {
             ColorPickerView(isOpen: $isOpen)
@@ -229,6 +244,13 @@ struct HomeView: View {
                         libraryVM.addColorToCurrentLibrary(libraryId: library.id, hexData: currentHexColorLongGesture) {
                             DispatchQueue.main.async {
                                 self.isOpenAddColorToLibraryModalForm.toggle()
+                                authenticationContextProvider.fetchCurrentAccount {
+                                    if let ownerId = authenticationContextProvider.currentAccount?.id {
+                                        libraryVM.fetchAllLibrariesByAccountId(ownerId: ownerId){
+                                            
+                                        }
+                                    }
+                                }
                             }
                         }
                     }, label: {
