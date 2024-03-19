@@ -7,6 +7,7 @@
 
 import SwiftUI
 import ModalView
+import AlertToast
 
 struct ConfirmDialogWithTextField: View {
     @Binding var isShown: Bool
@@ -55,7 +56,12 @@ struct HomeView: View {
     @State private var selection: String?
     @State private var paletteLoadingState: LoadingState<String> = .none
     
+    @State private var isOpenAlertToast: Bool = false
+    @State private var isCompleteEvent: Bool = false
+    
     @GestureState private var isLongPressColor: Bool = false
+    
+    @State private var alertToastConfiguration: AlertToastConfiguration?
     
     
     
@@ -199,7 +205,7 @@ struct HomeView: View {
                     ScrollView (.vertical) {
                         if let ownerId = authenticationContextProvider.currentAccount?.id {
                             
-                            ForEach(libraryVM.currentAccountLibraries, id: \.id) { library in
+                            ForEach(libraryVM.currentAccountLibraries.sorted{$0.createdAt > $1.createdAt}, id: \.id) { library in
                                 CardLibrary(library: library)
                             }
                             
@@ -216,12 +222,23 @@ struct HomeView: View {
 //                        
 //                    }
                     
+                    Button(action: {
+                        isOpenAlertToast.toggle()
+                    }, label: {
+                        /*@START_MENU_TOKEN@*/Text("Button")/*@END_MENU_TOKEN@*/
+                    })
                 }
             }
         }
         .onAppear() {
             Log.proposeLogWarning("User cannot be null")
             DispatchQueue.main.async {
+//                if self.isCompleteEvent {
+//                    self.alertToastConfiguration = nil
+//                    withAnimation(.easeInOut){
+//                        self.isCompleteEvent = false
+//                    }
+//                }
                 authenticationContextProvider.fetchCurrentAccount {
                     if let ownerId = authenticationContextProvider.currentAccount?.id {
                         Log.proposeLogInfo("Account ID: \(ownerId)")
@@ -233,10 +250,11 @@ struct HomeView: View {
             }
         }
         
-        .sheet(isPresented: $isOpen) {
-            ColorPickerView(isOpen: $isOpen)
+        .sheet(isPresented: $isOpen, content: {
+            ColorPickerView(isOpen: $isOpen) // Added binding alert toast to this view 
                 .environmentObject(authenticationContextProvider)
-        }
+        })
+        
         .sheet(isPresented: $isOpenAddColorToLibraryModalForm, content: {
             ModalPresenter {
                 List(libraryVM.currentAccountLibraries, id: \.id, selection: $selection) { library in
@@ -244,6 +262,18 @@ struct HomeView: View {
                         libraryVM.addColorToCurrentLibrary(libraryId: library.id, hexData: currentHexColorLongGesture) {
                             DispatchQueue.main.async {
                                 self.isOpenAddColorToLibraryModalForm.toggle()
+                                
+                                withAnimation(.easeInOut){
+                                    self.isOpenAlertToast.toggle()
+                                }
+                                
+                                self.alertToastConfiguration = AlertToastConfiguration(
+                                    displayMode: .banner(.pop),
+                                    type: .complete(.green),
+                                    title: "Added to current library successfully",
+                                    subtitle: nil)
+                                self.isCompleteEvent = true
+                                
                                 authenticationContextProvider.fetchCurrentAccount {
                                     if let ownerId = authenticationContextProvider.currentAccount?.id {
                                         libraryVM.fetchAllLibrariesByAccountId(ownerId: ownerId){
@@ -263,9 +293,23 @@ struct HomeView: View {
             TextField("Name of library", text: $libraryVM.name)
             SolidButton(title: "Add new library", hasIcon: false, iconFromAppleSystem: false, action: {
                 if let currentAccount = authenticationContextProvider.currentAccount {
+                    // Create new library
                     libraryVM.createNewLibrary(account: currentAccount, data: Library(id: UUID().uuidString, name: libraryVM.name, colors: [], ownerId: currentAccount.id, createdAt: Date().timeIntervalSince1970, modifiedAt: Date().timeIntervalSince1970)) {
+                       
                         DispatchQueue.main.async {
-                            authenticationContextProvider.fetchCurrentAccount(){}
+                            withAnimation(.easeInOut){
+                                self.isOpenAlertToast.toggle()
+                            }
+                            
+                            self.alertToastConfiguration = AlertToastConfiguration(
+                                displayMode: .banner(.slide),
+                                type: .complete(.green),
+                                title: "Created library successfully",
+                                subtitle: "You can add new color to this library")
+                            self.isCompleteEvent = true
+                            authenticationContextProvider.fetchCurrentAccount(){
+                                
+                            }
                         }
                     }
                 }
@@ -276,7 +320,26 @@ struct HomeView: View {
         } message: {
             Text("Please enter the name of library")
         }
-        
+        .toast(isPresenting: $isOpenAlertToast, alert: {
+            if let alertToastConfiguration = alertToastConfiguration {
+                AlertToast(
+                    displayMode: alertToastConfiguration.displayMode,
+                    type: alertToastConfiguration.type,
+                    title: alertToastConfiguration.title,
+                    subTitle: alertToastConfiguration.subtitle
+                )
+                
+            }else {
+                AlertToast(
+                    displayMode: .alert,
+                    type: .regular,
+                    title: "N/A",
+                    subTitle: "N/A"
+                )
+            }
+            
+         
+        })
         
         
     }
