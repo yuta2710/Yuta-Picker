@@ -17,9 +17,7 @@ struct TabBarCustomization: View {
             HStack (spacing: 0.0) {
                 ForEach(Tab.allCases, id: \.rawValue) { tab in
                     Button(action: {
-                        withAnimation(.easeInOut) {
-                            currentTab = tab
-                        }
+                        currentTab = tab
                     }, label: {
                         Image(systemName: tab.rawValue)
                             .resizable()
@@ -79,4 +77,6 @@ struct TabBarCustomization: View {
 #Preview {
 //    TabBarCustomization(currentTab: .constant(.home))
     ContentView()
+        .environmentObject(AuthenticationContextProvider())
+        .environmentObject(ColourInfoContextProvider())
 }

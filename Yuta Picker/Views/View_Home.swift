@@ -164,7 +164,9 @@ struct HomeView: View {
                     
                     ScrollView (.vertical) {
                         if let ownerId = authenticationContextProvider.currentAccount?.id {
-                            ForEach(libraryVM.currentAccountLibraries.sorted{$0.modifiedAt > $1.modifiedAt}, id: \.id) { library in
+                            ForEach(libraryVM.currentAccountLibraries.sorted {
+                                $0.modifiedAt > $1.modifiedAt || $0.createdAt > $1.createdAt 
+                            }, id: \.id) { library in
                                 CardLibrary(library: library)
                             }
                             
@@ -172,10 +174,12 @@ struct HomeView: View {
                         
                         
                     }
+                    .frame(maxHeight: .infinity)
                 }
              
             }
         }
+    
         .onAppear() {
             Log.proposeLogWarning("User cannot be null")
             DispatchQueue.main.async {
@@ -186,7 +190,8 @@ struct HomeView: View {
                 //                    }
                 //                }
                 authenticationContextProvider.fetchCurrentAccount {
-                    Log.proposeLogInfo("Dit con me no \(authenticationContextProvider.currentAccount)")
+                    Log.proposeLogInfo("Dit con me no \(authenticationContextProvider.currentAccount?.id)")
+                    
                     if let ownerId = authenticationContextProvider.currentAccount?.id {
                         Log.proposeLogInfo("Account ID: \(ownerId)")
                         libraryVM.fetchAllLibrariesByAccountId(ownerId: ownerId){
@@ -194,6 +199,7 @@ struct HomeView: View {
                         }
                     }
                 }
+                
             }
             
             
@@ -210,7 +216,7 @@ struct HomeView: View {
         
         .sheet(isPresented: $isOpenAddColorToLibraryModalForm, content: {
             ModalPresenter {
-                List(libraryVM.currentAccountLibraries.sorted {$0.createdAt > $1.createdAt}, id: \.id, selection: $selection) { library in
+                List(libraryVM.currentAccountLibraries.sorted {$0.modifiedAt > $1.modifiedAt || $0.createdAt > $1.createdAt}, id: \.id, selection: $selection) { library in
                     Button(action: {
                         libraryVM.addColorToCurrentLibrary(libraryId: library.id, hexData: currentHexColorLongGesture) {
                             DispatchQueue.main.async {
@@ -242,6 +248,9 @@ struct HomeView: View {
                             .foregroundColor(.black)
                     })
                 }
+            }
+            .alert(isPresented: $libraryVM.isDisplayAlert) {
+                Alert(title: Text(libraryVM.alertTitle), message: Text(libraryVM.alertMessage), dismissButton: .cancel())
             }
         })
         .alert("Create new library", isPresented: $isOpenCreateNewWorkspaceDialog){

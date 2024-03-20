@@ -62,12 +62,48 @@ class LibraryViewViewModel: ObservableObject {
     
     func addColorToCurrentLibrary(libraryId: String, hexData: String, callback: @escaping () -> ()) {
         do {
-            db.collection("libraries").document(libraryId).updateData([
-                "colors": FieldValue.arrayUnion([hexData]), 
-                "modifiedAt": Date().timeIntervalSince1970]) { error in
-                Log.proposeLogInfo("[SUCCESSFULLY ADDED COLOR TO LIBRARY \(libraryId)]")
+            let docRef = db.collection("libraries").document(libraryId)
+
+            // Fetch the current array from Firestore
+            docRef.getDocument { (document, error) in
+                guard let document = document, document.exists else {
+                    print("Document does not exist")
+                    return
+                }
+                
+                // Extract the current array from the document
+                var currentColorsArray = document.data()?["colors"] as? [String] ?? []
+                
+                for hexValue in currentColorsArray {
+                    if hexValue == hexData {
+                        self.isDisplayAlert.toggle()
+                        self.alertTitle = "Hell nah"
+                        self.alertMessage = "Color has already exist"
+                        
+                        Log.proposeLogError("This hex data has already exist")
+                        
+                        return
+                    }
+                }
+
+                // Insert the new element at the first position
+                currentColorsArray.insert(hexData, at: 0)
+
+                // Update the document with the modified array
+                docRef.updateData([
+                    "colors": currentColorsArray,
+                    "modifiedAt": Date().timeIntervalSince1970
+                ]) { error in
+                    if let error = error {
+                        print("Error updating document: \(error)")
+                    } else {
+                        print("Document successfully updated")
+                    }
+                }
+                
+                callback()
             }
-            callback()
+            
         }catch let error {
             Log.proposeLogError("\(error.localizedDescription)")
         }
