@@ -16,6 +16,6 @@ struct Account: Codable {
     var id: String 
     var email: String
     var name: String
-    var paletteIds: [String]
+    var paletteIds: [String: String]
     var libraryWorkspaceIds: [String]
 }

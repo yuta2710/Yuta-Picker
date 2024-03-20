@@ -16,7 +16,11 @@ struct ColorPickerView: View {
     @State var cmykComponents: (Double, Double, Double, Double) = (0.0, 0.0, 0.0, 0.0)
     
     @EnvironmentObject private var authVM: AuthenticationContextProvider
+    
     @Binding var isOpen: Bool
+    @Binding var alertToastConfiguration: AlertToastConfiguration?
+    @Binding var isOpenAlertToast: Bool
+    @Binding var isCompleteEvent: Bool
     
     var body: some View {
         NavigationView {
@@ -37,13 +41,27 @@ struct ColorPickerView: View {
                         ToolbarItem(placement: .navigationBarTrailing) {
                             Button(action: {
                                 print("Data Color before saved to DB: \(colorAttributesVM.selectedColor.asHex()!)")
-                                if  let hexColor = colorAttributesVM.selectedColor.asHex(), let currentAccount = authVM.currentAccount {
+                                if let hexColor = colorAttributesVM.selectedColor.asHex(),
+                                   let currentAccount = authVM.currentAccount {
                                     self.colorAttributesVM.saveUserPalette(account: currentAccount, paletteData: hexColor) {
+                                 
                                         Log.proposeLogInfo("[SUCCESS - save user palette]: \(colorAttributesVM.selectedColor.asHex()!)")
                                     }
                                     
                                     DispatchQueue.main.async {
                                         self.isOpen.toggle()
+                                        
+                                        withAnimation(.easeInOut){
+                                            self.isOpenAlertToast = true
+                                        }
+                                        
+                                        self.alertToastConfiguration = AlertToastConfiguration(
+                                            displayMode: .hud,
+                                            type: .complete(.green),
+                                            title: "Save new palette successfully",
+                                            subtitle: nil)
+                                        self.isCompleteEvent = true
+                                        
                                         authVM.fetchCurrentAccount(){}
                                     }
                                 }
@@ -135,16 +153,8 @@ struct ColorPickerView: View {
                     
                 }
             }
-//            .frame(height: .infinity)
-//            .background(
-//                Color("TertiaryBackground")
-//                    .edgesIgnoringSafeArea(.all)
-//            )
-            
         }
         .frame(maxWidth: .infinity)
-//        .frame(height: 500)
-        
         Spacer()
     }
 }

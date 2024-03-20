@@ -49,7 +49,7 @@ class ColourInfoContextProvider: ObservableObject {
                 decoder.keyDecodingStrategy = .convertFromSnakeCase
                 
                 let decodedData: ColorAttributes = try decoder.decode(ColorAttributes.self, from: data)
-                print("Hahaha \(decodedData._embedded)")
+                print("Hahaha \(decodedData.name)")
                 Log.proposeLogInfo("[DECODED COLOR]: \(decodedData)")
     
                 DispatchQueue.main.async {

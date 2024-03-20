@@ -19,6 +19,7 @@
 		CF6CE2D72BA4C64F003915D7 /* View_LoadingWrapper.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF6CE2D62BA4C64F003915D7 /* View_LoadingWrapper.swift */; };
 		CF7EE47E2BA9BF7800F0E372 /* AlertToast in Frameworks */ = {isa = PBXBuildFile; productRef = CF7EE47D2BA9BF7800F0E372 /* AlertToast */; };
 		CF7EE4802BA9C0B300F0E372 /* Model_AlertToast.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7EE47F2BA9C0B300F0E372 /* Model_AlertToast.swift */; };
+		CF7EE4832BAABC6F00F0E372 /* Cache_ColorAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF7EE4822BAABC6F00F0E372 /* Cache_ColorAttributes.swift */; };
 		CF86AABC2B970B61004A2545 /* Yuta_PickerApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86AABB2B970B61004A2545 /* Yuta_PickerApp.swift */; };
 		CF86AABE2B970B61004A2545 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF86AABD2B970B61004A2545 /* ContentView.swift */; };
 		CF86AAC02B970B62004A2545 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = CF86AABF2B970B62004A2545 /* Assets.xcassets */; };
@@ -86,6 +87,7 @@
 		CF6CE2D42BA4C5C6003915D7 /* Util_LoadingState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Util_LoadingState.swift; sourceTree = "<group>"; };
 		CF6CE2D62BA4C64F003915D7 /* View_LoadingWrapper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = View_LoadingWrapper.swift; sourceTree = "<group>"; };
 		CF7EE47F2BA9C0B300F0E372 /* Model_AlertToast.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model_AlertToast.swift; sourceTree = "<group>"; };
+		CF7EE4822BAABC6F00F0E372 /* Cache_ColorAttributes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Cache_ColorAttributes.swift; sourceTree = "<group>"; };
 		CF86AAB82B970B61004A2545 /* Yuta Picker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Yuta Picker.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		CF86AABB2B970B61004A2545 /* Yuta_PickerApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Yuta_PickerApp.swift; sourceTree = "<group>"; };
 		CF86AABD2B970B61004A2545 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -238,6 +240,14 @@
 			path = Animations;
 			sourceTree = "<group>";
 		};
+		CF7EE4812BAABC5D00F0E372 /* Cache */ = {
+			isa = PBXGroup;
+			children = (
+				CF7EE4822BAABC6F00F0E372 /* Cache_ColorAttributes.swift */,
+			);
+			path = Cache;
+			sourceTree = "<group>";
+		};
 		CF86AAAF2B970B61004A2545 = {
 			isa = PBXGroup;
 			children = (
@@ -257,6 +267,7 @@
 		CF86AABA2B970B61004A2545 /* Yuta Picker */ = {
 			isa = PBXGroup;
 			children = (
+				CF7EE4812BAABC5D00F0E372 /* Cache */,
 				CF6CE2C72BA07C05003915D7 /* Animations */,
 				CF28ADE62B9B9E9B005F78B9 /* Views */,
 				CF28ADE42B9B9E30005F78B9 /* UI */,
@@ -404,6 +415,7 @@
 				CF86AABE2B970B61004A2545 /* ContentView.swift in Sources */,
 				CF86AB2B2B98EC34004A2545 /* View_Profile.swift in Sources */,
 				CF6CE2D32BA4C589003915D7 /* Util_NetworkErrorConstants.swift in Sources */,
+				CF7EE4832BAABC6F00F0E372 /* Cache_ColorAttributes.swift in Sources */,
 				CF86AB1D2B9768C6004A2545 /* UI_SolidButton.swift in Sources */,
 				CF86AAD22B970FB2004A2545 /* ViewModel_Library.swift in Sources */,
 				CF86AB2F2B98EC7B004A2545 /* View_Camera.swift in Sources */,

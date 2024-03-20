@@ -69,7 +69,8 @@ class AuthenticationContextProvider: ObservableObject {
             let userObject = result.user
             Log.proposeLogInfo("\nUser Object  = \(userObject)")
             
-            let accountEntity: Account = Account(id: userObject.uid, email: userObject.email!, name: userObject.displayName!, paletteIds: [], libraryWorkspaceIds: [])
+            let accountEntity: Account = Account(id: userObject.uid, email: userObject.email!, name: userObject.displayName!, paletteIds: [:], libraryWorkspaceIds: [])
+            
             let isAccountExist: Bool = await isAccountExistInFirestore(accountId: accountEntity.id)
             
             if !isAccountExist {
@@ -77,13 +78,14 @@ class AuthenticationContextProvider: ObservableObject {
             }
             
             Log.proposeLogInfo("\n\nUser \(userObject.uid) signed in with \(userObject.email ?? "Unknown")")
+            
             return true
             
         }catch let error {
             Log.proposeLogError(error.localizedDescription)
             return false
         }
-
+        
     }
     
     func signInWithGithub() {
@@ -138,14 +140,23 @@ class AuthenticationContextProvider: ObservableObject {
             Log.proposeLogInfo("[FETCHED DOCUMENT DATA]: \(data)")
             
             DispatchQueue.main.async {
-                self?.currentAccount = Account(
-                    id: data["id"] as? String ?? "",
-                    email: data["email"] as? String ?? "",
-                    name: data["name"] as? String ?? "",
-                    paletteIds: data["paletteIds"] as? [String] ?? [],
-                    libraryWorkspaceIds: data["libraryWorkspaceIds"] as? [String] ?? []
-                )
-                callback()
+                if let paletteArray = data["paletteIds"] as? [[String: String]], // Check if paletteIds is an array of dictionaries
+                   let paletteDictionary = paletteArray.first { // Access the first element of the array
+                    self?.currentAccount = Account(
+                        id: data["id"] as? String ?? "",
+                        email: data["email"] as? String ?? "",
+                        name: data["name"] as? String ?? "",
+                        paletteIds: paletteArray.reduce(into: [:]) { result, dictionary in
+                            dictionary.forEach { key, value in
+                                result[key] = value
+                            }
+                        },
+                        libraryWorkspaceIds: data["libraryWorkspaceIds"] as? [String] ?? []
+                    )
+                    callback()
+                } else {
+                    // Handle if paletteIds is not in the expected format
+                }
             }
         }
         

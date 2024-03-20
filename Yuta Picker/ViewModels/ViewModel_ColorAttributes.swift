@@ -25,7 +25,7 @@ class ColorAttributesViewViewModel: ObservableObject {
                 return
             }
             print("[PALETTE DATA]: \(paletteData)")
-            db.collection("accounts").document(account.id).updateData(["paletteIds": FieldValue.arrayUnion([paletteData])]) { error in
+            db.collection("accounts").document(account.id).updateData(["paletteIds": FieldValue.arrayUnion([[paletteData: String(Date().timeIntervalSince1970)]])]) { error in
                 Log.proposeLogInfo("[SUCCESS UPDATED DOCUMENT - save user palette]")
             }
             

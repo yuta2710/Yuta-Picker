@@ -17,6 +17,7 @@ struct WaveAnimation: View {
             .fill(
                 fillColor
             )
+            .edgesIgnoringSafeArea(.all)
          
         .onAppear() {
             Task.init {

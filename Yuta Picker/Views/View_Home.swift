@@ -52,18 +52,13 @@ struct HomeView: View {
     @State private var isOpenCreateNewWorkspaceDialog: Bool = false
     @State private var isOpenAddColorToLibraryModalForm: Bool = false
     @State private var currentHexColorLongGesture: String = ""
-    
     @State private var selection: String?
     @State private var paletteLoadingState: LoadingState<String> = .none
-    
     @State private var isOpenAlertToast: Bool = false
     @State private var isCompleteEvent: Bool = false
-    
-    @GestureState private var isLongPressColor: Bool = false
-    
     @State private var alertToastConfiguration: AlertToastConfiguration?
     
-    
+    @GestureState private var isLongPressColor: Bool = false
     
     var body: some View {
         NavigationView {
@@ -72,26 +67,17 @@ struct HomeView: View {
                     .navigationBarTitleDisplayMode(.inline)
                     .toolbar {
                         ToolbarItem(placement: .principal) {
-                            ZStack {
-                                HStack {
-                                    Text("YutaPicker")
-                                        .font(.title.bold())
-                                    //                                        .gradientTextColor(
-                                    //                                            colors: [
-                                    //                                                Color("PinkGradient1"),
-                                    //                                                Color("PinkGradient2")
-                                    //                                            ]
-                                    //                                        )
-                                    Spacer()
-                                    Button(action: {
-                                        self.isOpenCreateNewWorkspaceDialog.toggle()
-                                    }, label: {
-                                        Image(systemName: "plus")
-                                            .bold()
-                                        //                                            .foregroundColor(.white)
-                                            .foregroundColor(.black)
-                                    })
-                                }
+                            HStack {
+                                Text("YutaPicker")
+                                    .font(.title.bold())
+//                                Spacer()
+                                Button(action: {
+                                    self.isOpenCreateNewWorkspaceDialog.toggle()
+                                }, label: {
+                                    Image(systemName: "plus")
+                                        .bold()
+                                        .foregroundColor(.black)
+                                })
                             }
                         }
                     }
@@ -116,95 +102,68 @@ struct HomeView: View {
                     //                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 0))
                     
                     Text("Palette")
-                    //                        .foregroundColor(Color("PrimaryBackground"))
                         .font(.title.bold())
                         .offset(y: 16)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 0))
                     
                     
-                    ScrollView (.horizontal) {
-                        HStack (spacing: 16.0) {
-                            Button(
-                                action: {
-                                    self.isOpen.toggle()
-                                },
-                                label: {
-                                    Image(systemName: "plus")
-                                        .frame(width: 50, height: 50)
-                                        .background(.black)
-                                    
-                                        .foregroundStyle(.linearGradient(colors: [Color("PinkGradient1"), Color("PinkGradient2")], startPoint: .top, endPoint: .bottom))
-                                        .overlay (
-                                            Circle()
-                                                .stroke(LinearGradient(
-                                                    colors: [Color.red, Color.blue],
-                                                    startPoint: .top,
-                                                    endPoint: .bottom), style: StrokeStyle(lineWidth: 5.0))
-                                        )
-                                        .cornerRadius(25.0)
-                                    
-                                })
+                    ScrollView(.horizontal) {
+                        HStack(spacing: 16.0) {
+                            Button(action: {
+                                self.isOpen.toggle()
+                            }) {
+                                Image(systemName: "plus")
+                                    .frame(width: 50, height: 50)
+                                    .background(Color.black)
+                                    .foregroundStyle(LinearGradient(colors: [Color("PinkGradient1"), Color("PinkGradient2")], startPoint: .top, endPoint: .bottom))
+                                    .overlay(
+                                        Circle()
+                                            .stroke(LinearGradient(colors: [Color.red, Color.blue], startPoint: .top, endPoint: .bottom), style: StrokeStyle(lineWidth: 5.0))
+                                    )
+                                    .cornerRadius(25.0)
+                            }
                             
-                            if let palleteIds = authenticationContextProvider.currentAccount?.paletteIds {
-                                ForEach(palleteIds, id: \.self) { palleteHex in
-                                    
-                                    NavigationLink{
-                                        ColorAttributeDetailsView(hexCode: palleteHex.uppercased())
-                                        
-                                    }label: {
-                                        let uiColor = Color.init(hex: "#\(palleteHex)")!
-                                        Color(uiColor)
-                                            .frame(width: 50, height: 50)
-                                            .cornerRadius(8.0)
-                                            .shadow(color: uiColor, radius: 8, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 0.0)
-                                            .gesture (
-                                                LongPressGesture(minimumDuration: 0.5)
-                                                    .updating($isLongPressColor){ currentState, gestureState, transaction in
-                                                        gestureState = currentState
-                                                        DispatchQueue.main.async {
-                                                            self.currentHexColorLongGesture = palleteHex
-                                                        }
-                                                    }
-                                                    .onEnded { value in
-                                                        //
-                                                    }
-                                                
-                                            )
-                                            .contextMenu(ContextMenu(menuItems: {
-                                                Button(action: {
-                                                    // Handle action for "New Album" here
-                                                    self.isOpenAddColorToLibraryModalForm.toggle()
-                                                }) {
-                                                    Label("Add this color to workspace", systemImage: "rectangle.stack.badge.plus")
-                                                }
-                                                
-                                            }))
+                            if let paletteIds = authenticationContextProvider.currentAccount?.paletteIds {
+                                ForEach(paletteIds.sorted(by: { TimeInterval($0.value)! > TimeInterval($1.value)! }), id: \.key) { key, value in
+                                    NavigationLink(destination: ColorAttributeDetailsView(hexCode: key.uppercased())) {
+                                        let uiColor = Color(hex: "#\(key)")!
+                                        Circle()
+                                            .fill(uiColor)
+                                            .frame(width: 50, height: 50) // Adjust the size as needed
+                                            .cornerRadius(25.0) // Adjust the corner radius as needed
+                                            .shadow(color: uiColor, radius: 8, x: 0.0, y: 0.0)
                                     }
-//                                    LoadingWrapperView(loadingState: paletteLoadingState) {
-//                                        Button("Perform Loading Operation") {
-//                                            paletteLoadingState = .loading
-//                                        }.buttonStyle(.borderedProminent)
-//                                    } loadingContent: {
-//                                        ProgressView("Loading...")
-//                                    } successContent: { hex in
-//                                        Text()
-//                                    } failureContent: { error in
-//                                        Text(error.localizedDescription)
-//                                            .foregroundStyle(.red)
-//                                    }
-                                    
-                                    
+                                    .simultaneousGesture(
+                                        LongPressGesture(minimumDuration: 0.5)
+                                            .updating($isLongPressColor) { currentState, gestureState, transaction in
+                                                gestureState = currentState
+                                                DispatchQueue.main.async {
+                                                    self.currentHexColorLongGesture = key
+                                                }
+                                            }
+                                            .onEnded { _ in
+                                                // Handle long press gesture
+                                            }
+                                    )
+                                    .contextMenu {
+                                        Button(action: {
+                                            self.isOpenAddColorToLibraryModalForm.toggle()
+                                        }) {
+                                            Label("Add this color to workspace", systemImage: "rectangle.stack.badge.plus")
+                                        }
+                                    }
                                 }
                             }
                         }
-                        .padding()
-                        
+                        .padding(24)
                     }
+                    
+                
+
                     
                     ScrollView (.vertical) {
                         if let ownerId = authenticationContextProvider.currentAccount?.id {
-                            
                             ForEach(libraryVM.currentAccountLibraries.sorted{$0.createdAt > $1.createdAt}, id: \.id) { library in
                                 CardLibrary(library: library)
                             }
@@ -213,32 +172,19 @@ struct HomeView: View {
                         
                         
                     }
-//                    .onAppear() {
-//                        if let ownerId = authenticationContextProvider.currentAccount?.id {
-//                            libraryVM.fetchAllLibrariesByAccountId(ownerId: ownerId){
-//                                
-//                            }
-//                        }
-//                        
-//                    }
-                    
-                    Button(action: {
-                        isOpenAlertToast.toggle()
-                    }, label: {
-                        /*@START_MENU_TOKEN@*/Text("Button")/*@END_MENU_TOKEN@*/
-                    })
                 }
+             
             }
         }
         .onAppear() {
             Log.proposeLogWarning("User cannot be null")
             DispatchQueue.main.async {
-//                if self.isCompleteEvent {
-//                    self.alertToastConfiguration = nil
-//                    withAnimation(.easeInOut){
-//                        self.isCompleteEvent = false
-//                    }
-//                }
+                //                if self.isCompleteEvent {
+                //                    self.alertToastConfiguration = nil
+                //                    withAnimation(.easeInOut){
+                //                        self.isCompleteEvent = false
+                //                    }
+                //                }
                 authenticationContextProvider.fetchCurrentAccount {
                     if let ownerId = authenticationContextProvider.currentAccount?.id {
                         Log.proposeLogInfo("Account ID: \(ownerId)")
@@ -248,16 +194,22 @@ struct HomeView: View {
                     }
                 }
             }
+            
+            Log.proposeLogInfo("\(authenticationContextProvider.currentAccount?.paletteIds.keys)")
         }
         
         .sheet(isPresented: $isOpen, content: {
-            ColorPickerView(isOpen: $isOpen) // Added binding alert toast to this view 
-                .environmentObject(authenticationContextProvider)
+            ColorPickerView(
+                isOpen: $isOpen,
+                alertToastConfiguration: $alertToastConfiguration,
+                isOpenAlertToast: $isOpenAlertToast,
+                isCompleteEvent: $isCompleteEvent) // Added binding alert toast to this view
+            .environmentObject(authenticationContextProvider)
         })
         
         .sheet(isPresented: $isOpenAddColorToLibraryModalForm, content: {
             ModalPresenter {
-                List(libraryVM.currentAccountLibraries, id: \.id, selection: $selection) { library in
+                List(libraryVM.currentAccountLibraries.sorted {$0.createdAt > $1.createdAt}, id: \.id, selection: $selection) { library in
                     Button(action: {
                         libraryVM.addColorToCurrentLibrary(libraryId: library.id, hexData: currentHexColorLongGesture) {
                             DispatchQueue.main.async {
@@ -270,8 +222,8 @@ struct HomeView: View {
                                 self.alertToastConfiguration = AlertToastConfiguration(
                                     displayMode: .banner(.pop),
                                     type: .complete(.green),
-                                    title: "Added to current library successfully",
-                                    subtitle: nil)
+                                    title: "Successfully",
+                                    subtitle: "Added to current library successfully")
                                 self.isCompleteEvent = true
                                 
                                 authenticationContextProvider.fetchCurrentAccount {
@@ -285,6 +237,8 @@ struct HomeView: View {
                         }
                     }, label: {
                         Text(library.name)
+                            .font(.caption)
+                            .foregroundColor(.black)
                     })
                 }
             }
@@ -295,14 +249,14 @@ struct HomeView: View {
                 if let currentAccount = authenticationContextProvider.currentAccount {
                     // Create new library
                     libraryVM.createNewLibrary(account: currentAccount, data: Library(id: UUID().uuidString, name: libraryVM.name, colors: [], ownerId: currentAccount.id, createdAt: Date().timeIntervalSince1970, modifiedAt: Date().timeIntervalSince1970)) {
-                       
+                        
                         DispatchQueue.main.async {
                             withAnimation(.easeInOut){
                                 self.isOpenAlertToast.toggle()
                             }
                             
                             self.alertToastConfiguration = AlertToastConfiguration(
-                                displayMode: .banner(.slide),
+                                displayMode: .hud,
                                 type: .complete(.green),
                                 title: "Created library successfully",
                                 subtitle: "You can add new color to this library")
@@ -338,7 +292,7 @@ struct HomeView: View {
                 )
             }
             
-         
+            
         })
         
         

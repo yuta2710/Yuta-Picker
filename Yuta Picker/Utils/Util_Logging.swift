@@ -15,7 +15,7 @@ enum Log {
         
         fileprivate var prefix: String {
             switch self {
-            case .info: return "INFO"
+            case .info: return "INFO ✅"
             case .warning: return "WARNING ⚠️"
             case .error: return "ALERT ❌"
             }

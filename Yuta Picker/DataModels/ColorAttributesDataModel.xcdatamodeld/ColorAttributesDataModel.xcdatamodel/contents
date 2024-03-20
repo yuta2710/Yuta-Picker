@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="22757" systemVersion="23B74" minimumToolsVersion="Automatic" sourceLanguage="Swift" usedWithSwiftData="YES" userDefinedModelVersionIdentifier="">
+    <entity name="CMYK" representedClassName="CMYK" syncable="YES" codeGenerationType="class"/>
+    <entity name="ColorAttributesCacheModel" representedClassName="ColorAttributesCacheModel" syncable="YES" codeGenerationType="class">
+        <relationship name="cmyk" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="CMYK"/>
+        <relationship name="contrast" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Contrast"/>
+        <relationship name="embedded" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Embedded"/>
+        <relationship name="hex" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Hex"/>
+        <relationship name="hsl" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="HSL"/>
+        <relationship name="hsv" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="HSV"/>
+        <relationship name="image" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Image"/>
+        <relationship name="links" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Links"/>
+        <relationship name="name" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Name"/>
+        <relationship name="rgb" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="RGB"/>
+        <relationship name="xyz" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="XYZ"/>
+    </entity>
+    <entity name="Contrast" representedClassName="Contrast" syncable="YES" codeGenerationType="class"/>
+    <entity name="Embedded" representedClassName="Embedded" syncable="YES" codeGenerationType="class"/>
+    <entity name="Fraction" representedClassName="Fraction" syncable="YES" codeGenerationType="class">
+        <attribute name="b" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="g" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+        <attribute name="r" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
+    </entity>
+    <entity name="Hex" representedClassName="Hex" syncable="YES" codeGenerationType="class">
+        <attribute name="clean" optional="YES" attributeType="String"/>
+        <attribute name="value" optional="YES" attributeType="String"/>
+    </entity>
+    <entity name="HSL" representedClassName="HSL" syncable="YES" codeGenerationType="class"/>
+    <entity name="HSV" representedClassName="HSV" syncable="YES" codeGenerationType="class"/>
+    <entity name="Image" representedClassName="Image" syncable="YES" codeGenerationType="class"/>
+    <entity name="Links" representedClassName="Links" syncable="YES" codeGenerationType="class"/>
+    <entity name="Name" representedClassName="Name" syncable="YES" codeGenerationType="class"/>
+    <entity name="RGB" representedClassName="RGB" syncable="YES" codeGenerationType="class"/>
+    <entity name="XYZ" representedClassName="XYZ" syncable="YES" codeGenerationType="class"/>
+</model>
