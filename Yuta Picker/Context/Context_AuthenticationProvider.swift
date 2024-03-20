@@ -109,7 +109,15 @@ class AuthenticationContextProvider: ObservableObject {
     func insertUser(data: Account, callback: @escaping () -> ()) {
         let db = Firestore.firestore()
         do {
-            try db.collection("accounts").document(data.id).setData(from: data) { error in
+            try db.collection("accounts").document(data.id).setData(
+                [
+                    "id": data.id,
+                    "email": data.email,
+                    "name": data.name,
+                    "paletteIds": [[:]],
+                    "libraryWorkspaceIds": []
+                ]
+            ) { error in
                 if let error = error {
                     Log.proposeLogError(error.localizedDescription)
                 }
@@ -140,8 +148,13 @@ class AuthenticationContextProvider: ObservableObject {
             Log.proposeLogInfo("[FETCHED DOCUMENT DATA]: \(data)")
             
             DispatchQueue.main.async {
-                if let paletteArray = data["paletteIds"] as? [[String: String]], // Check if paletteIds is an array of dictionaries
-                   let paletteDictionary = paletteArray.first { // Access the first element of the array
+                Log.proposeLogInfo("Concac \(data["paletteIds"])")
+                //                var datum = data["paletteIds"] as? [[String:String]]
+                //                print("Fuck you datum \(datum)")
+                if let paletteArray = data["paletteIds"] as? [[String: String]],
+                   let paletteDictionary = paletteArray.first
+                {
+                    print("Con gai me no")
                     self?.currentAccount = Account(
                         id: data["id"] as? String ?? "",
                         email: data["email"] as? String ?? "",
@@ -153,14 +166,13 @@ class AuthenticationContextProvider: ObservableObject {
                         },
                         libraryWorkspaceIds: data["libraryWorkspaceIds"] as? [String] ?? []
                     )
+                    print("\(self!.currentAccount!)")
                     callback()
                 } else {
                     // Handle if paletteIds is not in the expected format
                 }
             }
         }
-        
-        
     }
     
     func isAccountExistInFirestore(accountId: String) async -> Bool {

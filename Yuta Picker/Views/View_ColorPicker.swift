@@ -133,7 +133,9 @@ struct ColorPickerView: View {
             
             .onAppear() {
                 DispatchQueue.main.async {
-                    authVM.fetchCurrentAccount(){}
+                    authVM.fetchCurrentAccount(){
+                        
+                    }
                 }
                 
             }
@@ -163,4 +165,5 @@ struct ColorPickerView: View {
     //    ColorPickerView(isOpen: .constant(true))
     HomeView()
         .environmentObject(AuthenticationContextProvider())
+        .environmentObject(ColourInfoContextProvider())
 }

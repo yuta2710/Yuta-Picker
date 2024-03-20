@@ -62,7 +62,9 @@ class LibraryViewViewModel: ObservableObject {
     
     func addColorToCurrentLibrary(libraryId: String, hexData: String, callback: @escaping () -> ()) {
         do {
-            db.collection("libraries").document(libraryId).updateData(["colors": FieldValue.arrayUnion([hexData])]) { error in
+            db.collection("libraries").document(libraryId).updateData([
+                "colors": FieldValue.arrayUnion([hexData]), 
+                "modifiedAt": Date().timeIntervalSince1970]) { error in
                 Log.proposeLogInfo("[SUCCESSFULLY ADDED COLOR TO LIBRARY \(libraryId)]")
             }
             callback()

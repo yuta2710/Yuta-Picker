@@ -164,7 +164,7 @@ struct HomeView: View {
                     
                     ScrollView (.vertical) {
                         if let ownerId = authenticationContextProvider.currentAccount?.id {
-                            ForEach(libraryVM.currentAccountLibraries.sorted{$0.createdAt > $1.createdAt}, id: \.id) { library in
+                            ForEach(libraryVM.currentAccountLibraries.sorted{$0.modifiedAt > $1.modifiedAt}, id: \.id) { library in
                                 CardLibrary(library: library)
                             }
                             
@@ -186,6 +186,7 @@ struct HomeView: View {
                 //                    }
                 //                }
                 authenticationContextProvider.fetchCurrentAccount {
+                    Log.proposeLogInfo("Dit con me no \(authenticationContextProvider.currentAccount)")
                     if let ownerId = authenticationContextProvider.currentAccount?.id {
                         Log.proposeLogInfo("Account ID: \(ownerId)")
                         libraryVM.fetchAllLibrariesByAccountId(ownerId: ownerId){
@@ -195,7 +196,7 @@ struct HomeView: View {
                 }
             }
             
-            Log.proposeLogInfo("\(authenticationContextProvider.currentAccount?.paletteIds.keys)")
+            
         }
         
         .sheet(isPresented: $isOpen, content: {
@@ -248,8 +249,16 @@ struct HomeView: View {
             SolidButton(title: "Add new library", hasIcon: false, iconFromAppleSystem: false, action: {
                 if let currentAccount = authenticationContextProvider.currentAccount {
                     // Create new library
-                    libraryVM.createNewLibrary(account: currentAccount, data: Library(id: UUID().uuidString, name: libraryVM.name, colors: [], ownerId: currentAccount.id, createdAt: Date().timeIntervalSince1970, modifiedAt: Date().timeIntervalSince1970)) {
+                    libraryVM.createNewLibrary(
+                        account: currentAccount,
+                        data: Library(id: UUID().uuidString, 
+                                      name: libraryVM.name,
+                                      colors: [],
+                                      ownerId: currentAccount.id,
+                                      createdAt: Date().timeIntervalSince1970,
+                                      modifiedAt: Date().timeIntervalSince1970)) {
                         
+                                          Log.proposeLogInfo("Dit me \(currentAccount.name)")
                         DispatchQueue.main.async {
                             withAnimation(.easeInOut){
                                 self.isOpenAlertToast.toggle()
