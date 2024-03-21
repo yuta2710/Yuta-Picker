@@ -109,6 +109,22 @@ class LibraryViewViewModel: ObservableObject {
         }
     }
     
+    func deleteCurrentLibrary(libId: String, callback: @escaping () -> ()) {
+        do{
+            try db.collection("libraries").document(libId).delete { error in
+                if let error = error {
+                    
+                }else {
+                    Log.proposeLogInfo("This is scumbag")
+                    callback()
+                }
+            }
+            
+        }catch {
+            
+        }
+    }
+    
     func validate() -> Bool {
         guard !name.isEmpty else {
             self.isDisplayAlert.toggle()

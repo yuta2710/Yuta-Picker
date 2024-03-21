@@ -8,14 +8,41 @@
 import SwiftUI
 
 struct CardLibrary: View {
+    @Binding var isOpenAlertDeleteConfirmation: Bool
+    @Binding var currentLibrarySelected: Library?
+    
     var library: Library
     
     var body: some View {
         ZStack(alignment: .topLeading) {
             VStack(alignment: .leading, spacing: 16) {
-                Text(library.name)
-                    .font(.system(size: 24, weight: .bold, design: .rounded))
-                    .foregroundColor(.white)
+                HStack {
+                    Text(library.name)
+                        .font(.system(size: 24, weight: .bold, design: .rounded))
+                        .foregroundColor(.white)
+                    Spacer()
+                    
+                    HStack(spacing: 24.0) {
+                        Button(action: /*@START_MENU_TOKEN@*/{}/*@END_MENU_TOKEN@*/, label: {
+                            Image(systemName: "gearshape")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.green)
+                            //                                .shadow(color: Color("PrimaryBackground"), radius: 1, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 0.2)
+                        })
+                        
+                        Button(action: {
+                            isOpenAlertDeleteConfirmation.toggle()
+                            currentLibrarySelected = library
+                        }, label: {
+                            Image(systemName: "trash")
+                                .resizable()
+                                .frame(width: 30, height: 30)
+                                .foregroundColor(.red)
+                            //                                .shadow(color: Color.red, radius: 0.5, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 0.0)
+                        })
+                    }
+                }
                 
                 ScrollView(.horizontal) {
                     HStack (alignment: .center) {
@@ -26,13 +53,8 @@ struct CardLibrary: View {
                                 .cornerRadius(18.0)
                                 .shadow(color: uiColor, radius: 8, x: /*@START_MENU_TOKEN@*/0.0/*@END_MENU_TOKEN@*/, y: 0.0)
                                 .cornerRadius(18.0)
-                            
                         }
-                        
-                        
                     }
-                    
-                   
                 }
                 
                 VStack (alignment: .leading, spacing: 6.0) {
@@ -72,7 +94,11 @@ struct CardLibrary: View {
 }
 
 #Preview {
-    CardLibrary(library: .init(id: "", name: "", colors: [], ownerId: "",
+    CardLibrary(
+        isOpenAlertDeleteConfirmation: .constant(true),
+        currentLibrarySelected: .constant(.init(id: "", name: "", colors: [], ownerId: "",
+                                                createdAt: Date().timeIntervalSince1970, modifiedAt: Date().timeIntervalSince1970)),
+        library: .init(id: "", name: "", colors: [], ownerId: "",
                                createdAt: Date().timeIntervalSince1970, modifiedAt: Date().timeIntervalSince1970))
 }
 

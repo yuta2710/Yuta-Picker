@@ -16,10 +16,6 @@ struct SearchView: View {
     @EnvironmentObject private var colourInfoContextProvider: ColourInfoContextProvider
     var body: some View {
         NavigationStack {
-            
-            VStack {
-                
-            }
             if searchColorByHexValue.count == 6 {
                 let uiColor = Color(hex: "#\(searchColorByHexValue)")!
                 
@@ -28,87 +24,71 @@ struct SearchView: View {
                 //                    .cornerRadius(8.0)
                 //                    .shadow(color: uiColor, radius: 8, x: 0.0, y: 0.0)
                 
-                VStack {
+                GeometryReader() { proxy in
+                    let width = proxy.size.width
+                    let height = proxy.size.height
                     
-                    
-                    
-                    
-                    GeometryReader() { proxy in
-                        let width = proxy.size.width
-                        let height = proxy.size.height
+                    ZStack {
+                        WaveAnimation(fillColor: uiColor)
                         
-                        ZStack {
-                            WaveAnimation(fillColor: uiColor)
-                                .frame(width: width, height: height)
-                            
-                            
-                            
-                            if
-                                let nameOfColor: String = colourInfoContextProvider.currentColorDetails?.name.value,
-                                let contrastColor: String = colourInfoContextProvider.currentColorDetails?.contrast.value {
-                                VStack {
-                                    let contrastUIColor = Color(hex: contrastColor)
-                                    HStack (spacing: 8.0) {
-                                        Text(String(format: "R: %.2f, ", self.rgbComponents.0))
-                                            .foregroundColor(contrastUIColor)
-                                        
-                                        Text(String(format: "G: %.2f, ", self.rgbComponents.1))
-                                            .foregroundColor(contrastUIColor)
-                                        
-                                        Text(String(format: "B: %.2f, ", self.rgbComponents.2))
-                                            .foregroundColor(contrastUIColor)
-                                    }
-                                    
-                                    HStack (spacing: 8.0) {
-                                        Text(String(format: "H: %.2f, ", self.hsbComponents.0))
-                                            .foregroundColor(contrastUIColor)
-                                        
-                                        Text(String(format: "S: %.2f, ", self.hsbComponents.1))
-                                            .foregroundColor(contrastUIColor)
-                                        
-                                        Text(String(format: "B: %.2f, ", self.hsbComponents.2))
-                                            .foregroundColor(contrastUIColor)
-                                    }
-                                    
-                                    HStack (spacing: 8.0) {
-                                        Text(String(format: "C: %.2f, ", self.cmykComponents.0))
-                                            .foregroundColor(contrastUIColor)
-                                        
-                                        Text(String(format: "M: %.2f, ", self.cmykComponents.1))
-                                            .foregroundColor(contrastUIColor)
-                                        
-                                        Text(String(format: "Y: %.2f, ", self.cmykComponents.2))
-                                            .foregroundColor(contrastUIColor)
-                                        
-                                        Text(String(format: "J: %.2f ", self.cmykComponents.3))
-                                            .foregroundColor(contrastUIColor)
-                                    }
-                                    
-                                    Text("\(nameOfColor)")
-                                        .foregroundColor(contrastUIColor)
-                                        .font(.largeTitle.bold())
-                                    Text("Colour Information")
-                                        .foregroundColor(contrastUIColor)
-                                    Text("#\(self.searchColorByHexValue)")
+                        if
+                            let nameOfColor: String = colourInfoContextProvider.currentColorDetails?.name.value,
+                            let contrastColor: String = colourInfoContextProvider.currentColorDetails?.contrast.value {
+                            VStack {
+                                let contrastUIColor = Color(hex: contrastColor)
+                                HStack (spacing: 8.0) {
+                                    Text(String(format: "R: %.2f, ", self.rgbComponents.0))
                                         .foregroundColor(contrastUIColor)
                                     
+                                    Text(String(format: "G: %.2f, ", self.rgbComponents.1))
+                                        .foregroundColor(contrastUIColor)
+                                    
+                                    Text(String(format: "B: %.2f, ", self.rgbComponents.2))
+                                        .foregroundColor(contrastUIColor)
                                 }
-                                .offset(y: 48)
-                                .edgesIgnoringSafeArea(.all)
+                                
+                                HStack (spacing: 8.0) {
+                                    Text(String(format: "H: %.2f, ", self.hsbComponents.0))
+                                        .foregroundColor(contrastUIColor)
+                                    
+                                    Text(String(format: "S: %.2f, ", self.hsbComponents.1))
+                                        .foregroundColor(contrastUIColor)
+                                    
+                                    Text(String(format: "B: %.2f, ", self.hsbComponents.2))
+                                        .foregroundColor(contrastUIColor)
+                                }
+                                
+                                HStack (spacing: 8.0) {
+                                    Text(String(format: "C: %.2f, ", self.cmykComponents.0))
+                                        .foregroundColor(contrastUIColor)
+                                    
+                                    Text(String(format: "M: %.2f, ", self.cmykComponents.1))
+                                        .foregroundColor(contrastUIColor)
+                                    
+                                    Text(String(format: "Y: %.2f, ", self.cmykComponents.2))
+                                        .foregroundColor(contrastUIColor)
+                                    
+                                    Text(String(format: "J: %.2f ", self.cmykComponents.3))
+                                        .foregroundColor(contrastUIColor)
+                                }
+                                
+                                Text("\(nameOfColor)")
+                                    .foregroundColor(contrastUIColor)
+                                    .font(.largeTitle.bold())
+                                Text("Colour Information")
+                                    .foregroundColor(contrastUIColor)
+                                Text("#\(self.searchColorByHexValue)")
+                                    .foregroundColor(contrastUIColor)
+                                
                             }
+                            .offset(y: 48)
+//                            .edgesIgnoringSafeArea(.all)
                         }
-                        
                     }
-                    .edgesIgnoringSafeArea(.all)
-                    
                     
                 }
-                
-                
-                
+//                .edgesIgnoringSafeArea(.all)
             }
-            
-            
         }
         .onChange(of: searchColorByHexValue) { newSearchValue in
             fetchColorInformation(hexValue: searchColorByHexValue)
@@ -136,7 +116,7 @@ struct SearchView: View {
                 self.hsbComponents = (hue, saturation, brightness)
                 self.cmykComponents = (cyan, magnento, yellow, keyline)
                 
-//                print()
+                //                print()
             }
         }
     }

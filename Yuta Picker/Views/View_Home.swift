@@ -9,42 +9,13 @@ import SwiftUI
 import ModalView
 import AlertToast
 
-struct ConfirmDialogWithTextField: View {
-    @Binding var isShown: Bool
-    @State private var textFieldText = ""
-    
-    var body: some View {
-        VStack {
-            Text("Enter Text")
-            TextField("Type here", text: $textFieldText)
-                .textFieldStyle(RoundedBorderTextFieldStyle())
-                .padding()
-            
-            HStack {
-                Button("Cancel") {
-                    self.isShown = false
-                }
-                .padding()
-                
-                Spacer()
-                
-                Button("Confirm") {
-                    // Handle confirm action here, using textFieldText
-                    self.isShown = false
-                }
-                .padding()
-            }
-        }
-        .padding()
-        .background(Color.white)
-        .cornerRadius(10)
-        .shadow(radius: 5)
-    }
-}
-
 struct HomeView: View {
     @EnvironmentObject private var authenticationContextProvider: AuthenticationContextProvider
     @EnvironmentObject private var colourInfoContextProvider: ColourInfoContextProvider
+    @Environment(\.presentationMode) var presentationMode
+    
+    
+    @GestureState private var isLongPressColor: Bool = false
     
     @StateObject private var libraryVM: LibraryViewViewModel = LibraryViewViewModel()
     
@@ -57,8 +28,8 @@ struct HomeView: View {
     @State private var isOpenAlertToast: Bool = false
     @State private var isCompleteEvent: Bool = false
     @State private var alertToastConfiguration: AlertToastConfiguration?
-    
-    @GestureState private var isLongPressColor: Bool = false
+    @State private var isOpenAlertDeleteConfirmation: Bool = false
+    @State private var currentLibrarySelected: Library?
     
     var body: some View {
         NavigationView {
@@ -70,7 +41,6 @@ struct HomeView: View {
                             HStack {
                                 Text("YutaPicker")
                                     .font(.title.bold())
-//                                Spacer()
                                 Button(action: {
                                     self.isOpenCreateNewWorkspaceDialog.toggle()
                                 }, label: {
@@ -95,21 +65,15 @@ struct HomeView: View {
                 //                    .blur(radius: 25)
                 
                 VStack {
-                    //                    GradientText(title: "Palette", colors: [Color.cyan, Color.orange])
-                    //                        .font(.title.bold())
-                    //                        .offset(y: 16)
-                    //                        .frame(maxWidth: .infinity, alignment: .leading)
-                    //                        .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 0))
-                    
                     Text("Palette")
                         .font(.title.bold())
                         .offset(y: 16)
                         .frame(maxWidth: .infinity, alignment: .leading)
                         .padding(EdgeInsets(top: 16, leading: 16, bottom: 0, trailing: 0))
                     
-                    
                     ScrollView(.horizontal) {
                         HStack(spacing: 16.0) {
+                            // Create new color button
                             Button(action: {
                                 self.isOpen.toggle()
                             }) {
@@ -124,15 +88,16 @@ struct HomeView: View {
                                     .cornerRadius(25.0)
                             }
                             
+                            //// Display list of current user colors
                             if let paletteIds = authenticationContextProvider.currentAccount?.paletteIds {
                                 ForEach(paletteIds.sorted(by: { TimeInterval($0.value)! > TimeInterval($1.value)! }), id: \.key) { key, value in
                                     NavigationLink(destination: ColorAttributeDetailsView(hexCode: key.uppercased())) {
                                         let uiColor = Color(hex: "#\(key)")!
                                         Circle()
                                             .fill(uiColor)
-                                            .frame(width: 50, height: 50) // Adjust the size as needed
-                                            .cornerRadius(25.0) // Adjust the corner radius as needed
-                                            .shadow(color: uiColor, radius: 8, x: 0.0, y: 0.0)
+                                            .frame(width: 50, height: 50)
+                                            .cornerRadius(25.0)
+                                            .shadow(color: uiColor, radius: 3, x: 0.0, y: 0.0)
                                     }
                                     .simultaneousGesture(
                                         LongPressGesture(minimumDuration: 0.5)
@@ -150,7 +115,9 @@ struct HomeView: View {
                                         Button(action: {
                                             self.isOpenAddColorToLibraryModalForm.toggle()
                                         }) {
-                                            Label("Add this color to workspace", systemImage: "rectangle.stack.badge.plus")
+                                            Label("Add this color to workspace",
+                                                  systemImage: "rectangle.stack.badge.plus"
+                                            )
                                         }
                                     }
                                 }
@@ -159,50 +126,28 @@ struct HomeView: View {
                         .padding(24)
                     }
                     
-                
-
-                    
+                    //// Display all library of current account
                     ScrollView (.vertical) {
                         if let ownerId = authenticationContextProvider.currentAccount?.id {
                             ForEach(libraryVM.currentAccountLibraries.sorted {
-                                $0.modifiedAt > $1.modifiedAt || $0.createdAt > $1.createdAt 
+                                $0.modifiedAt > $1.modifiedAt || $0.createdAt > $1.createdAt
                             }, id: \.id) { library in
-                                CardLibrary(library: library)
+                                CardLibrary(
+                                    isOpenAlertDeleteConfirmation: $isOpenAlertDeleteConfirmation,
+                                    currentLibrarySelected: $currentLibrarySelected,
+                                    library: library)
                             }
-                            
                         }
-                        
-                        
                     }
                     .frame(maxHeight: .infinity)
                 }
-             
             }
         }
-    
         .onAppear() {
             Log.proposeLogWarning("User cannot be null")
             DispatchQueue.main.async {
-                //                if self.isCompleteEvent {
-                //                    self.alertToastConfiguration = nil
-                //                    withAnimation(.easeInOut){
-                //                        self.isCompleteEvent = false
-                //                    }
-                //                }
-                authenticationContextProvider.fetchCurrentAccount {
-                    Log.proposeLogInfo("Dit con me no \(authenticationContextProvider.currentAccount?.id)")
-                    
-                    if let ownerId = authenticationContextProvider.currentAccount?.id {
-                        Log.proposeLogInfo("Account ID: \(ownerId)")
-                        libraryVM.fetchAllLibrariesByAccountId(ownerId: ownerId){
-                            
-                        }
-                    }
-                }
-                
+                self.updateUIAfterCRUD {}
             }
-            
-            
         }
         
         .sheet(isPresented: $isOpen, content: {
@@ -210,44 +155,36 @@ struct HomeView: View {
                 isOpen: $isOpen,
                 alertToastConfiguration: $alertToastConfiguration,
                 isOpenAlertToast: $isOpenAlertToast,
-                isCompleteEvent: $isCompleteEvent) // Added binding alert toast to this view
+                isCompleteEvent: $isCompleteEvent)
             .environmentObject(authenticationContextProvider)
         })
         
         .sheet(isPresented: $isOpenAddColorToLibraryModalForm, content: {
             ModalPresenter {
-                List(libraryVM.currentAccountLibraries.sorted {$0.modifiedAt > $1.modifiedAt || $0.createdAt > $1.createdAt}, id: \.id, selection: $selection) { library in
-                    Button(action: {
-                        libraryVM.addColorToCurrentLibrary(libraryId: library.id, hexData: currentHexColorLongGesture) {
-                            DispatchQueue.main.async {
-                                self.isOpenAddColorToLibraryModalForm.toggle()
-                                
-                                withAnimation(.easeInOut){
-                                    self.isOpenAlertToast.toggle()
-                                }
-                                
-                                self.alertToastConfiguration = AlertToastConfiguration(
-                                    displayMode: .banner(.pop),
-                                    type: .complete(.green),
-                                    title: "Successfully",
-                                    subtitle: "Added to current library successfully")
-                                self.isCompleteEvent = true
-                                
-                                authenticationContextProvider.fetchCurrentAccount {
-                                    if let ownerId = authenticationContextProvider.currentAccount?.id {
-                                        libraryVM.fetchAllLibrariesByAccountId(ownerId: ownerId){
-                                            
-                                        }
-                                    }
+                List(
+                    libraryVM.currentAccountLibraries.sorted {$0.modifiedAt > $1.modifiedAt || $0.createdAt > $1.createdAt},
+                    id: \.id,
+                    selection: $selection) { library in
+                        Button(action: {
+                            libraryVM.addColorToCurrentLibrary(libraryId: library.id, hexData: currentHexColorLongGesture) {
+                                DispatchQueue.main.async {
+                                    self.isOpenAddColorToLibraryModalForm.toggle()
+                                    
+                                    self.setupToast(config: AlertToastConfiguration(
+                                        displayMode: .hud,
+                                        type: .complete(.green),
+                                        title: "Success!",
+                                        subtitle: "The new color has been added to this library successfully."))
+                                    
+                                    self.updateUIAfterCRUD {}
                                 }
                             }
-                        }
-                    }, label: {
-                        Text(library.name)
-                            .font(.caption)
-                            .foregroundColor(.black)
-                    })
-                }
+                        }, label: {
+                            Text(library.name)
+                                .font(.caption)
+                                .foregroundColor(.black)
+                        })
+                    }
             }
             .alert(isPresented: $libraryVM.isDisplayAlert) {
                 Alert(title: Text(libraryVM.alertTitle), message: Text(libraryVM.alertMessage), dismissButton: .cancel())
@@ -255,42 +192,67 @@ struct HomeView: View {
         })
         .alert("Create new library", isPresented: $isOpenCreateNewWorkspaceDialog){
             TextField("Name of library", text: $libraryVM.name)
-            SolidButton(title: "Add new library", hasIcon: false, iconFromAppleSystem: false, action: {
-                if let currentAccount = authenticationContextProvider.currentAccount {
-                    // Create new library
-                    libraryVM.createNewLibrary(
-                        account: currentAccount,
-                        data: Library(id: UUID().uuidString, 
-                                      name: libraryVM.name,
-                                      colors: [],
-                                      ownerId: currentAccount.id,
-                                      createdAt: Date().timeIntervalSince1970,
-                                      modifiedAt: Date().timeIntervalSince1970)) {
-                        
-                                          Log.proposeLogInfo("Dit me \(currentAccount.name)")
-                        DispatchQueue.main.async {
-                            withAnimation(.easeInOut){
-                                self.isOpenAlertToast.toggle()
-                            }
-                            
-                            self.alertToastConfiguration = AlertToastConfiguration(
-                                displayMode: .hud,
-                                type: .complete(.green),
-                                title: "Created library successfully",
-                                subtitle: "You can add new color to this library")
-                            self.isCompleteEvent = true
-                            authenticationContextProvider.fetchCurrentAccount(){
+            SolidButton(
+                title: "Add new library",
+                hasIcon: false,
+                iconFromAppleSystem: false,
+                action: {
+                    if let currentAccount = authenticationContextProvider.currentAccount {
+                        // Create new library
+                        libraryVM.createNewLibrary(
+                            account: currentAccount,
+                            data: Library(
+                                id: UUID().uuidString,
+                                name: libraryVM.name,
+                                colors: [],
+                                ownerId: currentAccount.id,
+                                createdAt: Date().timeIntervalSince1970,
+                                modifiedAt: Date().timeIntervalSince1970))
+                        {
+                            DispatchQueue.main.async {
+                                self.setupToast(config: AlertToastConfiguration(
+                                    displayMode: .hud,
+                                    type: .complete(.green),
+                                    title: "Success!",
+                                    subtitle: "You have successfully created new library"))
+                                self.updateUIAfterCRUD {}
+//                                authenticationContextProvider.fetchCurrentAccount(){}
                                 
                             }
                         }
                     }
-                }
-            })
+                })
             Button("Cancel", role: .cancel){}
             
             
         } message: {
             Text("Please enter the name of library")
+        }
+        .alert(isPresented: $isOpenAlertDeleteConfirmation) {
+            Alert(
+                title: Text("Confirmation"),
+                message: Text("Are you sure delete this library?"),
+                primaryButton: .default(Text("OK")) {
+                    // Dismiss the alert when OK button is tapped
+                    if
+                        let currentLibrarySelected = currentLibrarySelected {
+                        libraryVM.deleteCurrentLibrary(libId: currentLibrarySelected.id) {
+                            DispatchQueue.main.async {
+                                self.setupToast(config: AlertToastConfiguration(
+                                    displayMode: .hud,
+                                    type: .complete(.green),
+                                    title: "Success!",
+                                    subtitle: "You have successfully remove this library"))
+                                self.updateUIAfterCRUD {}
+                            }
+                        }
+                    }
+                },
+                secondaryButton: .cancel(Text("Cancel")) {
+                    // Dismiss the alert when Cancel button is tapped
+                    isOpenAlertDeleteConfirmation = false
+                }
+            )
         }
         .toast(isPresenting: $isOpenAlertToast, alert: {
             if let alertToastConfiguration = alertToastConfiguration {
@@ -309,13 +271,26 @@ struct HomeView: View {
                     subTitle: "N/A"
                 )
             }
-            
-            
         })
-        
-        
     }
     
+    func updateUIAfterCRUD(completion: @escaping () -> Void) {
+        authenticationContextProvider.fetchCurrentAccount {
+            if let ownerId = authenticationContextProvider.currentAccount?.id {
+                libraryVM.fetchAllLibrariesByAccountId(ownerId: ownerId) {
+                    completion()
+                }
+            }
+        }
+    }
+
+    func setupToast(config: AlertToastConfiguration){
+        withAnimation(.easeInOut){
+            self.isOpenAlertToast.toggle()
+        }
+        self.alertToastConfiguration = config
+        self.isCompleteEvent = true
+    }
 }
 
 
@@ -323,6 +298,7 @@ struct HomeView: View {
     HomeView()
         .environmentObject(AuthenticationContextProvider())
         .environmentObject(ColourInfoContextProvider())
-    //    ContentView()
-    
 }
+
+
+
