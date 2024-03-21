@@ -12,17 +12,15 @@ struct SearchView: View {
     @State var rgbComponents: (Double, Double, Double) = (0.0, 0.0, 0.0)
     @State var hsbComponents: (Double, Double, Double) = (0.0, 0.0, 0.0)
     @State var cmykComponents: (Double, Double, Double, Double) = (0.0, 0.0, 0.0, 0.0)
+    @State var isRandomColor: Bool = false
+    @State var randomColor: String = ""
     
     @EnvironmentObject private var colourInfoContextProvider: ColourInfoContextProvider
     var body: some View {
         NavigationStack {
+            Text("\(searchColorByHexValue)")
             if searchColorByHexValue.count == 6 {
                 let uiColor = Color(hex: "#\(searchColorByHexValue)")!
-                
-                //                Color(uiColor)
-                //                    .frame(width: 50, height: 50)
-                //                    .cornerRadius(8.0)
-                //                    .shadow(color: uiColor, radius: 8, x: 0.0, y: 0.0)
                 
                 GeometryReader() { proxy in
                     let width = proxy.size.width
@@ -36,6 +34,7 @@ struct SearchView: View {
                             let contrastColor: String = colourInfoContextProvider.currentColorDetails?.contrast.value {
                             VStack {
                                 let contrastUIColor = Color(hex: contrastColor)
+                                
                                 HStack (spacing: 8.0) {
                                     Text(String(format: "R: %.2f, ", self.rgbComponents.0))
                                         .foregroundColor(contrastUIColor)
@@ -80,14 +79,18 @@ struct SearchView: View {
                                 Text("#\(self.searchColorByHexValue)")
                                     .foregroundColor(contrastUIColor)
                                 
+                                Button(action: {
+                                    
+                                }, label: {
+                                    Image(systemName: "arrow.triangle.2.circlepath")
+                                })
+                                
                             }
                             .offset(y: 48)
-//                            .edgesIgnoringSafeArea(.all)
                         }
                     }
                     
                 }
-//                .edgesIgnoringSafeArea(.all)
             }
         }
         .onChange(of: searchColorByHexValue) { newSearchValue in
@@ -104,7 +107,6 @@ struct SearchView: View {
     private func fetchColorInformation(hexValue: String) {
         if hexValue.count == 6 {
             self.colourInfoContextProvider.getJsonByQuery(queries: ["hex": "\(hexValue)"])
-            
             let colorByHexSearching = Color(hex: "#\(hexValue)")!
             
             let (red, green, blue) = colorByHexSearching.rgbComponents()
@@ -115,8 +117,6 @@ struct SearchView: View {
                 self.rgbComponents = (red, green, blue)
                 self.hsbComponents = (hue, saturation, brightness)
                 self.cmykComponents = (cyan, magnento, yellow, keyline)
-                
-                //                print()
             }
         }
     }

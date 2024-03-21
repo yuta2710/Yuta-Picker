@@ -77,9 +77,6 @@ extension Color {
         var yellow: CGFloat = (1 - blue - keyline) / (1 - keyline)
         
         return (cyan, magnento, yellow, keyline)
-        
-        
-        
     }
     
     func asHex() -> String? {
@@ -104,6 +101,7 @@ extension Color {
             return String(format: "%02lX%02lX%02lX", lroundf(r * 255), lroundf(g * 255), lroundf(b * 255))
         }
     }
+    
 }
 
 extension Date {

@@ -18,6 +18,8 @@ struct ProfileView: View {
         }, label: {
             Text("Logout")
         })
+        
+        
     }
 }
 

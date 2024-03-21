@@ -12,7 +12,7 @@ enum LoadingState<T: Codable & Equatable>: Equatable {
     case loading
     case success(T)
     case error(Error)
-    
+                    
     static func == (lhs: LoadingState<T>, rhs: LoadingState<T>) -> Bool {
            switch (lhs, rhs) {
                case (.none, .none), (.loading, .loading):

@@ -14,7 +14,6 @@ struct HomeView: View {
     @EnvironmentObject private var colourInfoContextProvider: ColourInfoContextProvider
     @Environment(\.presentationMode) var presentationMode
     
-    
     @GestureState private var isLongPressColor: Bool = false
     
     @StateObject private var libraryVM: LibraryViewViewModel = LibraryViewViewModel()
@@ -51,18 +50,6 @@ struct HomeView: View {
                             }
                         }
                     }
-                //                Color("TertiaryBackground")
-                //                    .edgesIgnoringSafeArea(.all)
-                //                Circle()
-                //                    .frame(width: 400, height: 400)
-                //                    .offset(x: 150, y: -200)
-                //                    .foregroundColor(Color.cyan.opacity(0.5))
-                //                    .blur(radius: 25)
-                //                Circle()
-                //                    .frame(width: 300, height: 300)
-                //                    .offset(x: -100, y: -125)
-                //                    .foregroundColor(Color("PinkGradient2").opacity(0.5))
-                //                    .blur(radius: 25)
                 
                 VStack {
                     Text("Palette")
@@ -146,7 +133,7 @@ struct HomeView: View {
         .onAppear() {
             Log.proposeLogWarning("User cannot be null")
             DispatchQueue.main.async {
-                self.updateUIAfterCRUD {}
+                ViewOperationContextManager.updateUIAfterFinishedEvent(authRemoteArea: authenticationContextProvider, libraryRemoteArea: libraryVM) {}
             }
         }
         
@@ -170,13 +157,18 @@ struct HomeView: View {
                                 DispatchQueue.main.async {
                                     self.isOpenAddColorToLibraryModalForm.toggle()
                                     
-                                    self.setupToast(config: AlertToastConfiguration(
-                                        displayMode: .hud,
-                                        type: .complete(.green),
-                                        title: "Success!",
-                                        subtitle: "The new color has been added to this library successfully."))
+                                    ViewOperationContextManager.setupToast(
+                                        config: AlertToastConfiguration(
+                                            displayMode: .hud,
+                                            type: .complete(.green),
+                                            title: "Success!",
+                                            subtitle: "The new color has been added to this library successfully."),
+                                        isOpenAlertToast: $isOpenAlertToast,
+                                        alertToastConfiguration: $alertToastConfiguration,
+                                        isCompleteEvent: $isCompleteEvent
+                                    )
                                     
-                                    self.updateUIAfterCRUD {}
+                                    ViewOperationContextManager.updateUIAfterFinishedEvent(authRemoteArea: authenticationContextProvider, libraryRemoteArea: libraryVM) {}
                                 }
                             }
                         }, label: {
@@ -210,13 +202,19 @@ struct HomeView: View {
                                 modifiedAt: Date().timeIntervalSince1970))
                         {
                             DispatchQueue.main.async {
-                                self.setupToast(config: AlertToastConfiguration(
-                                    displayMode: .hud,
-                                    type: .complete(.green),
-                                    title: "Success!",
-                                    subtitle: "You have successfully created new library"))
-                                self.updateUIAfterCRUD {}
-//                                authenticationContextProvider.fetchCurrentAccount(){}
+                                ViewOperationContextManager.setupToast(
+                                    config: AlertToastConfiguration(
+                                        displayMode: .hud,
+                                        type: .complete(.green),
+                                        title: "Success!",
+                                        subtitle: "You have successfully created new library"),
+                                    isOpenAlertToast: $isOpenAlertToast,
+                                    alertToastConfiguration: $alertToastConfiguration,
+                                    isCompleteEvent: $isCompleteEvent)
+                                
+                                ViewOperationContextManager.updateUIAfterFinishedEvent(
+                                    authRemoteArea: authenticationContextProvider,
+                                    libraryRemoteArea: libraryVM) {}
                                 
                             }
                         }
@@ -238,12 +236,16 @@ struct HomeView: View {
                         let currentLibrarySelected = currentLibrarySelected {
                         libraryVM.deleteCurrentLibrary(libId: currentLibrarySelected.id) {
                             DispatchQueue.main.async {
-                                self.setupToast(config: AlertToastConfiguration(
-                                    displayMode: .hud,
-                                    type: .complete(.green),
-                                    title: "Success!",
-                                    subtitle: "You have successfully remove this library"))
-                                self.updateUIAfterCRUD {}
+                                ViewOperationContextManager.setupToast(
+                                    config: AlertToastConfiguration(
+                                        displayMode: .hud,
+                                        type: .complete(.green),
+                                        title: "Success!",
+                                        subtitle: "You have successfully remove this library"),
+                                    isOpenAlertToast: $isOpenAlertToast,
+                                    alertToastConfiguration: $alertToastConfiguration,
+                                    isCompleteEvent: $isCompleteEvent )
+                                ViewOperationContextManager.updateUIAfterFinishedEvent(authRemoteArea: authenticationContextProvider, libraryRemoteArea: libraryVM) {}
                             }
                         }
                     }
@@ -272,24 +274,6 @@ struct HomeView: View {
                 )
             }
         })
-    }
-    
-    func updateUIAfterCRUD(completion: @escaping () -> Void) {
-        authenticationContextProvider.fetchCurrentAccount {
-            if let ownerId = authenticationContextProvider.currentAccount?.id {
-                libraryVM.fetchAllLibrariesByAccountId(ownerId: ownerId) {
-                    completion()
-                }
-            }
-        }
-    }
-
-    func setupToast(config: AlertToastConfiguration){
-        withAnimation(.easeInOut){
-            self.isOpenAlertToast.toggle()
-        }
-        self.alertToastConfiguration = config
-        self.isCompleteEvent = true
     }
 }
 
